@@ -8,7 +8,8 @@
 </head>
 <body>
 	<h2>로그인</h2>
-	<form action="/employee/login.eansoft" method="post" enctype="multipart/form-data">
+	<!-- 폼테그는 컨트롤러에서 디비롤 넘겨줄때 필요함 -->
+	<form action="/employee/login.eansoft" method="post">
 		<input name="emplId" type="text" placeholder="아이디를 입력해 주세요." autocomplete="off"><br>
 		<input name="emplPw" type="password" placeholder="비밀번호를 입력해 주세요." autocomplete="off"><br>
 

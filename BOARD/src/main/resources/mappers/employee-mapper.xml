@@ -32,8 +32,4 @@
   		WHERE EMPL_ID = #{emplId} AND EMPL_PW = #{emplPw}
   	</select>
   	
-  	
-  	
-  	
-  
   </mapper>

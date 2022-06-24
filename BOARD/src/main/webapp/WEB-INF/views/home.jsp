@@ -7,11 +7,14 @@
 <title>홈</title>
 </head>
 <body>
-	<form action="/home.eansoft" method="post" enctype="multipart/form-data">
-		홈
+<!-- 	<form action="/home.eansoft" method="post"> -->
+		<h3>홈</h3>
 		<div>
-			<a id="myLink1" href="/employee/logout.eansoft">로그아웃</a>
+			<a id="myLink1" href="/board/boardMainView.eansoft">게시판</a>
 		</div>
-	</form>
+		<div>
+			<a id="myLink2" href="/employee/logout.eansoft">로그아웃</a>
+		</div>
+<!-- 	</form> -->
 </body>
 </html>

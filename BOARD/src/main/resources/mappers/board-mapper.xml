@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="BoardMapper">
+
+	<resultMap type="Board" id="boardResultMap">
+		<id property="boardNo" column="BOARD_NO"></id>
+		<result property="boardType" column="BOARD_TYPE"></result>
+		<result property="boardTitle" column="BOARD_TITLE"></result>
+		<result property="boardContent" column="BOARD_CONTENT"></result>
+		<result property="emplId" column="EMPL_ID"></result>
+		<result property="boardDate" column="BOARD_DATE"></result>
+		<result property="boardHits" column="BOARD_HITS"></result>
+	</resultMap>
+	
+	<!-- 마이바티스에 줄이려고 써둠 parameterType -->
+	<!-- id값 storelogic값과 같아야함 -->
+	<!-- 위에 타입, 아이디 중 적어줌 -->
+	<!-- select는 resultMap필요함  -->
+	
+	<!-- 게시판 메인 페이지 -->
+	<select id="selectAllBoard" resultMap="boardResultMap">
+		SELECT *
+		FROM BOARD_TBL
+		ORDER BY BOARD_NO DESC
+	</select>
+
+</mapper>

@@ -7,6 +7,6 @@
 <title>에러 페이지</title>
 </head>
 <body>
-	에러
+	<p>${msg}</p>
 </body>
 </html>

@@ -14,7 +14,7 @@
 		<div>
 			<!-- name은 컨트롤러 저장위해 필요. 컨트롤러와 같아야함 -->
 			<label>아이디</label>
-			<input name="emplId" type="text" placeholder="아이디를 입력하세요.">
+			<input name="emplId" type="text" placeholder="아이디를 입력하세요." autocomplete="off">
 		</div>
 
 		<div>
@@ -24,7 +24,7 @@
 
 		<div>
 			<label>이름</label>
-			<input name="emplName" type="text" placeholder="이름을 입력하세요.">
+			<input name="emplName" type="text" placeholder="이름을 입력하세요." autocomplete="off">
 		</div>
 
 		<div>
@@ -34,7 +34,7 @@
 
 		<div>
 			<label>연락처</label>
-			<input name="emplPhone" type="text" placeholder="010-1234-5678">
+			<input name="emplPhone" type="text" placeholder="010-1234-5678" autocomplete="off">
 		</div>
 
 		<div>

@@ -6,17 +6,17 @@
 <configuration>
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL" />
-		<!-- 만약에 NULL 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
+	<!--  	만약에 NULL 데이터가 전달되었으면 빈칸이 아닌 NULL로 인식하도록 설정 -->
 	</settings>
 	
 	<typeAliases>
 		<typeAlias type="com.eansoft.work.employee.domain.Employee" alias="Employee"></typeAlias>
-<!-- 		<typeAlias type="com.eansoft.work.board.domain.Board" alias="Board"></typeAlias> -->
+		<typeAlias type="com.eansoft.work.board.domain.Board" alias="Board"></typeAlias>
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="mappers/employee-mapper.xml" />
-<!-- 		<mapper resource="mappers/board-mapper.xml" /> -->
+		<mapper resource="mappers/employee-mapper.xml"></mapper>
+		<mapper resource="mappers/board-mapper.xml"></mapper> 
 	</mappers>
 
 </configuration>
