@@ -4,6 +4,36 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="EmployeeMapper">
+  	<!-- 필요한 값만 적으면 됨 -->
+  	<resultMap type="Employee" id="employeeResultMap">
+  		<id property="emplId" column="EMPL_ID"></id>
+		<result property="emplPw" column="EMPL_PW"></result>
+		<result property="emplName" column="EMPL_NAME"></result>
+		<result property="emplBirthday" column="EMPL_BIRTHDAY"></result>
+		<result property="emplPhone" column="EMPL_PHONE"></result>
+		<result property="emplGender" column="EMPL_GENDER"></result>
+  	</resultMap>
+  	
+  	<!-- 마이바티스에 줄이려고 써둠 parameterType -->
+	<!-- id값 storelogic값과 같아야함 -->
+	<!-- 위에 타입, 아이디 중 적어줌 -->
+	<!-- select는 resultMap필요함  -->
+  	
+  	<!-- 회원가입 -->
+  	<insert id="insertEmployee" parameterType="Employee">
+  		INSERT INTO EMPLOYEE_TBL
+  		VALUES(#{emplId}, #{emplPw}, #{emplName}, #{emplBirthday}, #{emplPhone}, #{emplGender})
+  	</insert>
   
+  	<!-- 로그인 -->
+  	<select id="selectLoginEmployee" parameterType="Employee" resultMap="employeeResultMap">
+  		SELECT *
+  		FROM EMPLOYEE_TBL
+  		WHERE EMPL_ID = #{emplId} AND EMPL_PW = #{emplPw}
+  	</select>
+  	
+  	
+  	
+  	
   
   </mapper>

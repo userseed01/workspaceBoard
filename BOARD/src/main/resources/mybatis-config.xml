@@ -10,9 +10,13 @@
 	</settings>
 	
 	<typeAliases>
+		<typeAlias type="com.eansoft.work.employee.domain.Employee" alias="Employee"></typeAlias>
+<!-- 		<typeAlias type="com.eansoft.work.board.domain.Board" alias="Board"></typeAlias> -->
 	</typeAliases>
 	
 	<mappers>
+		<mapper resource="mappers/employee-mapper.xml" />
+<!-- 		<mapper resource="mappers/board-mapper.xml" /> -->
 	</mappers>
 
 </configuration>
