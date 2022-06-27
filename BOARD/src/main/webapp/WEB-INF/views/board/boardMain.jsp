@@ -15,7 +15,6 @@
 			<td>번호</td>
 			<td>종류</td>
 			<td>제목</td>
-			<td>첨부파일</td>
 			<td>작성자</td>
 			<td>작성일</td>
 			<td>조회수</td>
@@ -26,12 +25,15 @@
 		<c:forEach items="${bList }" var="board">
 			<tr>
 				<td>${board.boardNo }</td>
-				<td>${board.boardType }</td>
-				<th>${board.boardTitle }</th>
-				<c:url var="bDetail" value="/"> <!-- form의 action같은것 -->
-					<c:param name="boardTitle" value="${board.boardTitle }"></c:param> <!-- url로 보내겠다 -->
+				<c:url var="bList" value="/board/boardDetailView.eansoft"> <!-- form의 action같은것 -->
+					<c:param name="boardNo" value="${board.boardNo }"></c:param> <!-- url로 보내겠다 -->
 				</c:url>
-				<td></td>  <!-- 첨부파일 -->
+				<td>${board.boardType }</td>
+				<th><a href="${bList }">${board.boardTitle }</a></th> <!-- var와 href맞춰주기 -->
+<%-- 				<c:url var="bList" value="/board/boardDetailView.eansoft">  --%>
+<%-- 					<c:param name="boardTitle" value="${board.boardTitle }"></c:param>  --%>
+<%-- 				</c:url> --%>
+				<!-- <td></td>   첨부파일 -->
 				<td>${board.emplId }</td>
 				<td>${board.boardDate }</td>
 				<td>${board.boardHits }</td>

@@ -26,5 +26,12 @@
 		FROM BOARD_TBL
 		ORDER BY BOARD_NO DESC
 	</select>
+	
+	<!-- 게시글 상세조회 -->
+	<select id="selectDetailBoard" resultMap="boardResultMap">
+		SELECT *
+		FROM BOARD_TBL
+		WHERE BOARD_NO = #{boardNo}
+	</select>
 
 </mapper>

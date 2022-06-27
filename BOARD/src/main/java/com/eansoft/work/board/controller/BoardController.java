@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eansoft.work.board.domain.Board;
@@ -39,5 +40,18 @@ public class BoardController {
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
+	}
+	
+	// 게시글 상세조회
+	@RequestMapping(value="/board/boardDetailView.eansoft", method=RequestMethod.GET)
+	public String boardDetailView(Model model, @RequestParam("boardNo") Integer boardNo) {
+		Board board = bService.printDetailBoard(boardNo);
+		if(board != null) {
+			model.addAttribute("board", board);
+			return "board/boardDetail";
+		} else {
+			model.addAttribute("msg", "게시글 조회 실패");
+			return "common/errorPage";
+		}
 	}
 }
