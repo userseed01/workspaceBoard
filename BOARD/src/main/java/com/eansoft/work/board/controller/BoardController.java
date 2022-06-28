@@ -76,32 +76,46 @@ public class BoardController {
 		}
 	}
 
-	// 게시글 수정 화면
+	// Model model jsp로 객체넘겨줄때 사용
+	// 게시글 수정 화면(값을 갖고 넘겨줘야 하기 때문에 좀 길어짐)
+	// required=false -> required 속성의 default 값은 true
+	// false값으로 사용하게 되면 해당 Parameter를 반드시 받지 않아도 됨
 	@RequestMapping(value = "/board/boardModifyView.eansoft", method = RequestMethod.GET)
-	public String boardModifyView() {
-		return "board/boardModify";
+	public String boardModifyView(Model model, @RequestParam(value = "boardNo", required = false) Integer boardNo) {
+		try {
+			Board board = bService.printDetailBoard(boardNo); // 상세조회한것 처럼 씀
+			if (board != null) { // 값을 담아와야해서 int를 쓸 수 없음
+				model.addAttribute("board", board);
+				return "board/boardModify";
+			} else {
+				model.addAttribute("msg", "게시글 수정 실패");
+				return "common/errorPage";
+			}
+		} catch (Exception e) {
+			return e.toString();			
+		}
 	}
 
 	// 게시글 수정
-	@RequestMapping(value="/board/boardModify.eansoft", method = RequestMethod.POST)
-	public ModelAndView boardModify(ModelAndView mv, @ModelAttribute Board board) {
-		
-		
-		
-		
-		
-		return mv;
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
-
+	@RequestMapping(value = "/board/boardModify.eansoft", method = RequestMethod.POST)
+	public String boardModify(
+			@RequestParam("boardNo") int boardNo,
+			@RequestParam("boardTitle") String boardTitle,
+			@RequestParam("boardContent") String boardContent) {
+		try {
+			Board board = new Board();
+			board.setBoardNo(boardNo);
+			board.setBoardTitle(boardTitle);
+			board.setBoardContent(boardContent);
+			// db에 데이터 저장
+			int result = bService.boardModify(board);
+			if (result > 0) {
+				return "redirect:/board/boardMainView.eansoft"; // 리스트이상하게나와서 리다이렉트로 바꿔줌
+			} else {
+				return "게시글 수정 실패";
+			}
+		} catch (Exception e) {
+			return e.toString();
+		}
+	}
 }

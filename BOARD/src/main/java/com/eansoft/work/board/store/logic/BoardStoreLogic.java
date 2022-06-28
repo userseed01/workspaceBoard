@@ -33,4 +33,11 @@ public class BoardStoreLogic implements BoardStore{
 		int result = sqlSession.insert("BoardMapper.insertWriteBorad", board);
 		return result;
 	}
+
+	// 게시글 수정
+	@Override
+	public int updateBoard(SqlSession sqlSession, Board board) {
+		int result = sqlSession.update("BoardMapper.updateBoard", board);
+		return result;
+	}
 }

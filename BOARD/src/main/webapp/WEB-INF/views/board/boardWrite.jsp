@@ -8,7 +8,6 @@
 </head>
 <body>
 	<h3>게시글 작성</h3>
-	<button onclick="history.back();">이전</button>
 	<form action="/board/boardWrite.eansoft" method="post" enctype="multipart/form-data">
 		<table border="1">
 			<tr>
@@ -44,6 +43,7 @@
 				<td><div id="current_date"></div></td>
 			</tr>
 		</table>
+		<button type="button" onclick="history.back();">이전</button>
 		<button type="submit" onclick="btnWrite()";>등록</button>
 	</form>
 	<script>

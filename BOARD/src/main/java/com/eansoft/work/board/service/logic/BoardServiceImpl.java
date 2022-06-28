@@ -39,4 +39,11 @@ public class BoardServiceImpl implements BoardService{
 		int result = bStore.insertBoard(sqlSession, board);
 		return result;
 	}
+
+	// 게시글 수정
+	@Override
+	public int boardModify(Board board) {
+		int result = bStore.updateBoard(sqlSession, board);
+		return result;
+	}
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-	<h3>${board.boardNo }번 게시글 상세보기</h3>
+	<h3>${board.boardNo }번게시글 상세보기</h3>
 	<table border="1">
 		<tr>
 			<td>번호</td>
@@ -39,7 +40,10 @@
 			<td>${board.boardHits }</td>
 		</tr>
 	</table>
-	<button onclick="history.back();">이전</button >
-	<button type="button" onclick="location.href="boardModify";>수정하기</button>
+	<button onclick="history.back();">이전</button>
+	<c:url var="boardModify" value="/board/boardModifyView.eansoft"> <!-- form의 action같은것 -->
+		<c:param name="boardNo" value="${board.boardNo }"></c:param> <!-- url로 보내겠다 -->
+	</c:url>
+	<button type="button" onclick="location.href='${boardModify }';">수정</button>
 </body>
 </html>

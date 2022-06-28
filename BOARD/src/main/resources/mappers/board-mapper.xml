@@ -40,5 +40,34 @@
 		VALUES (BOARD_NO.NEXTVAL, #{boardType}, #{boardTitle}, #{boardContent}, #{emplId}, SYSDATE)
 	</insert>
 	
+	<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE BOARD_TBL
+		SET BOARD_TITLE = #{boardTitle}, BOARD_CONTENT = #{boardContent}
+<!-- 		EMPL_ID = #{emplId} 업데이트문 살리기위해 임의로 컬럼하나 update하게 해놓은것 -->
+<!-- 		<if test='boardTitle != "" and boardTitle != null'>  -->
+<!--            , EMPL_PROFILE = #{emplProfile} -->
+<!--         </if> -->
+<!--         <if test='boardContent != "" and boardContent != null '> -->
+<!--            , EMPL_PW = #{emplPw} -->
+<!--         </if> -->
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

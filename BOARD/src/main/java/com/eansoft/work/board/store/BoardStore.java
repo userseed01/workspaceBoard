@@ -17,4 +17,7 @@ public interface BoardStore {
 	// 게시글 작성
 	public int insertBoard(SqlSession sqlSession, Board board);
 
+	// 게시글 수정
+	public int updateBoard(SqlSession sqlSession, Board board);
+
 }
