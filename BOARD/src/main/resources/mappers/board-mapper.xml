@@ -54,8 +54,12 @@
 		WHERE BOARD_NO = #{boardNo}
 	</update>
 	
-	
-	
+	<!-- 게시글 삭제 화면 -->
+	<delete id="deleteBoard">
+		DELETE
+		FROM BOARD_TBL
+		WHERE BOARD_NO =#{boardNo}
+	</delete>
 	
 	
 	

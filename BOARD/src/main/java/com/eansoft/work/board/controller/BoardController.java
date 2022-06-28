@@ -25,6 +25,7 @@ public class BoardController {
 
 	// get - 조회(select)
 	// post- 생성(insert),수정(update),삭제(delete)
+	// Model model, ModelAndView mv -> jsp로 객체넘겨줄때 사용
 
 	// 게시판 메인 화면
 	@RequestMapping(value = "/board/boardMainView.eansoft", method = RequestMethod.GET)
@@ -76,7 +77,6 @@ public class BoardController {
 		}
 	}
 
-	// Model model jsp로 객체넘겨줄때 사용
 	// 게시글 수정 화면(값을 갖고 넘겨줘야 하기 때문에 좀 길어짐)
 	// required=false -> required 속성의 default 값은 true
 	// false값으로 사용하게 되면 해당 Parameter를 반드시 받지 않아도 됨
@@ -92,15 +92,13 @@ public class BoardController {
 				return "common/errorPage";
 			}
 		} catch (Exception e) {
-			return e.toString();			
+			return e.toString();
 		}
 	}
 
 	// 게시글 수정
 	@RequestMapping(value = "/board/boardModify.eansoft", method = RequestMethod.POST)
-	public String boardModify(
-			@RequestParam("boardNo") int boardNo,
-			@RequestParam("boardTitle") String boardTitle,
+	public String boardModify(@RequestParam("boardNo") int boardNo, @RequestParam("boardTitle") String boardTitle,
 			@RequestParam("boardContent") String boardContent) {
 		try {
 			Board board = new Board();
@@ -113,6 +111,21 @@ public class BoardController {
 				return "redirect:/board/boardMainView.eansoft"; // 리스트이상하게나와서 리다이렉트로 바꿔줌
 			} else {
 				return "게시글 수정 실패";
+			}
+		} catch (Exception e) {
+			return e.toString();
+		}
+	}
+
+	// 게시글 삭제 화면
+	@RequestMapping(value="/board/boardDeleteView.eansoft", method=RequestMethod.GET)
+	public String boardDelete(@RequestParam(value = "boardNo", required = false) Integer boardNo) {
+		try {
+			int result = bService.boardDelete(boardNo);
+			if (result > 0) {
+				return "redirect:/board/boardMainView.eansoft";
+			} else {
+				return "게시물 삭제 실패";
 			}
 		} catch (Exception e) {
 			return e.toString();

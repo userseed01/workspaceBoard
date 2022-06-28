@@ -18,4 +18,6 @@ public interface BoardService {
 	// 게시글 수정
 	public int boardModify(Board board);
 
+	// 게시글 삭제 화면
+	public int boardDelete(int boardNo);
 }

@@ -20,4 +20,6 @@ public interface BoardStore {
 	// 게시글 수정
 	public int updateBoard(SqlSession sqlSession, Board board);
 
+	// 게시글 삭제 화면
+	public int deleteBoard(SqlSession sqlSession, int boardNo);
 }

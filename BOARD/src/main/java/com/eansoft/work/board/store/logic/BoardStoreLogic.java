@@ -40,4 +40,11 @@ public class BoardStoreLogic implements BoardStore{
 		int result = sqlSession.update("BoardMapper.updateBoard", board);
 		return result;
 	}
+
+	// 게시글 삭제 화면
+	@Override
+	public int deleteBoard(SqlSession sqlSession, int boardNo) {
+		int result = sqlSession.delete("BoardMapper.deleteBoard", boardNo);
+		return result;
+	}
 }

@@ -40,10 +40,27 @@
 			<td>${board.boardHits }</td>
 		</tr>
 	</table>
+	
+	<!-- no를 꼭 넘겨줘야함 -->
 	<button onclick="history.back();">이전</button>
 	<c:url var="boardModify" value="/board/boardModifyView.eansoft"> <!-- form의 action같은것 -->
 		<c:param name="boardNo" value="${board.boardNo }"></c:param> <!-- url로 보내겠다 -->
 	</c:url>
 	<button type="button" onclick="location.href='${boardModify }';">수정</button>
+	
+	<!-- no를 꼭 넘겨줘야함 -->
+	<c:url var="boardDelete" value="/board/boardDeleteView.eansoft">
+		<c:param name="boardNo" value="${board.boardNo }"></c:param>
+	</c:url>
+	<button type="button" onclick="btnDelete()";>삭제</button>
+	
+	<script>
+	// 게시글 삭제 버튼
+	function btnDelete() {
+		alert("게시글 삭제가 완료되었습니다.");
+		location.href='${boardDelete }';
+	}
+	</script>
+	
 </body>
 </html>
