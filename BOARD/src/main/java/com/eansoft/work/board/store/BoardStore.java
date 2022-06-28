@@ -11,7 +11,10 @@ public interface BoardStore {
 	// 게시판 메인 화면
 	public List<Board> selectAllMain(SqlSession sqlSession);
 
-	// 게시글 상세조회
+	// 게시글 상세조회 화면
 	public Board selectDetailBoard(SqlSession sqlSession, Integer boardNo);
+
+	// 게시글 작성
+	public int insertBoard(SqlSession sqlSession, Board board);
 
 }

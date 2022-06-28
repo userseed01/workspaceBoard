@@ -9,7 +9,10 @@ public interface BoardService {
 	// 게시판 메인 화면
 	public List<Board> printAllBoard();
 
-	// 게시글 상세조회
+	// 게시글 상세조회 화면
 	public Board printDetailBoard(Integer boardNo);
+
+	// 게시글 작성
+	public int boardWrite(Board board);
 
 }

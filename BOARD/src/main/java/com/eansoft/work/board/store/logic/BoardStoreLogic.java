@@ -20,10 +20,17 @@ public class BoardStoreLogic implements BoardStore{
 		return bList;
 	}
 
-	// 게시글 상세조회
+	// 게시글 상세조회 화면
 	@Override
 	public Board selectDetailBoard(SqlSession sqlSession, Integer boardNo) {
 		Board board = sqlSession.selectOne("BoardMapper.selectDetailBoard", boardNo); // 윗줄 sqlSession 옆에 뭐 있으면 꼭 함께 적어줄것
 		return board;
+	}
+
+	// 게시글 작성
+	@Override
+	public int insertBoard(SqlSession sqlSession, Board board) {
+		int result = sqlSession.insert("BoardMapper.insertWriteBorad", board);
+		return result;
 	}
 }

@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h2>게시판</h2>
-	<a href="/">게시글 작성</a><br><br>
+	<a href="/board/boardWriteView.eansoft">게시글 작성</a><br><br>
 	<table border="1">
 		<tr>
 			<td>번호</td>

@@ -27,11 +27,18 @@
 		ORDER BY BOARD_NO DESC
 	</select>
 	
-	<!-- 게시글 상세조회 -->
+	<!-- 게시글 상세조회 화면 -->
 	<select id="selectDetailBoard" resultMap="boardResultMap">
 		SELECT *
 		FROM BOARD_TBL
 		WHERE BOARD_NO = #{boardNo}
 	</select>
+	
+	<!-- 게시글 작성 -->
+	<insert id="insertWriteBorad" parameterType="Board">
+		INSERT INTO BOARD_TBL(BOARD_NO, BOARD_TYPE, BOARD_TITLE, BOARD_CONTENT, EMPL_ID, BOARD_DATE)
+		VALUES (BOARD_NO.NEXTVAL, #{boardType}, #{boardTitle}, #{boardContent}, #{emplId}, SYSDATE)
+	</insert>
+	
 
 </mapper>
