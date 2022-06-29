@@ -10,6 +10,7 @@ import com.eansoft.work.board.domain.Board;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.service.BoardService;
 import com.eansoft.work.board.store.BoardStore;
+import com.eansoft.work.common.Search;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -60,5 +61,12 @@ public class BoardServiceImpl implements BoardService{
 	public int getListCount() {
 		int result= bStore.selectListCount(sqlSession);
 		return result;
+	}
+	
+	// 게시판 검색
+	@Override
+	public List<Board> printSearchBoard(Search search) {
+		List<Board> bList = bStore.selectSearchBoard(sqlSession, search);
+		return bList;
 	}
 }

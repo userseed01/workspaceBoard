@@ -67,4 +67,35 @@
 		FROM BOARD_TBL
 	</select>
 
+	<!-- 게시판 검색 -->
+	<select id="selectSearchBoard" resultMap="boardResultMap">
+		<if test="searchCondition.toString() =='boardTitle'">
+			SELECT *
+			FROM BOARD_TBL
+			WHERE BOARD_TITLE LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() =='boardContent'">
+			SELECT *
+			FROM BOARD_TBL
+			WHERE BOARD_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() =='emplId'">
+			SELECT *
+			FROM BOARD_TBL
+			WHERE EMPL_ID LIKE '%' || #{searchValue} || '%'
+		</if>
+		ORDER BY BOARD_NO DESC
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.eansoft.work.board.domain.Board;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.store.BoardStore;
+import com.eansoft.work.common.Search;
 
 @Repository
 public class BoardStoreLogic implements BoardStore{
@@ -65,5 +66,12 @@ public class BoardStoreLogic implements BoardStore{
 	public int selectListCount(SqlSession sqlSession) {
 		int result = sqlSession.selectOne("BoardMapper.selectPage"); // 갯수 하나만 받는거라 One
 		return result;
+	}
+
+	// 게시판 검색
+	@Override
+	public List<Board> selectSearchBoard(SqlSession sqlSession, Search search) {
+		List<Board> bList = sqlSession.selectList("BoardMapper.selectSearchBoard", search);
+		return bList;
 	}
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.eansoft.work.board.domain.Board;
 import com.eansoft.work.board.domain.PageCount;
+import com.eansoft.work.common.Search;
 
 public interface BoardStore {
 
@@ -26,4 +27,7 @@ public interface BoardStore {
 
 	// 게시판 메인 페이징
 	public int selectListCount(SqlSession sqlSession);
+
+	// 게시판 검색
+	public List<Board> selectSearchBoard(SqlSession sqlSession, Search search);
 }

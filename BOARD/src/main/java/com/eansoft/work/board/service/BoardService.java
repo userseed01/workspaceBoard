@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.eansoft.work.board.domain.Board;
 import com.eansoft.work.board.domain.PageCount;
+import com.eansoft.work.common.Search;
 
 public interface BoardService {
 
@@ -24,4 +25,7 @@ public interface BoardService {
 
 	// 게시판 메인 페이징
 	public int getListCount();
+
+	// 게시판 검색
+	public List<Board> printSearchBoard(Search search);
 }

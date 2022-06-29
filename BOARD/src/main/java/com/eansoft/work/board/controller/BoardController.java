@@ -18,6 +18,7 @@ import com.eansoft.work.board.domain.Board;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.service.BoardService;
 import com.eansoft.work.common.Pagination;
+import com.eansoft.work.common.Search;
 
 @Controller
 public class BoardController {
@@ -143,5 +144,24 @@ public class BoardController {
 		} catch (Exception e) {
 			return e.toString();
 		}
+	}
+	
+	// 게시판 검색
+	@RequestMapping(value="/board/boardSearchView.eansoft", method=RequestMethod.GET)
+	public ModelAndView boardSearch(ModelAndView mv, @ModelAttribute Search search) {
+		try {
+			List<Board> searchList = bService.printSearchBoard(search);
+			if(!searchList.isEmpty()) {
+				mv.addObject("bList", searchList);
+				mv.setViewName("board/boardMain");
+			} else {
+				mv.addObject("msg", "검색 실패");
+				mv.setViewName("common/errorPage");
+			}
+		} catch (Exception e) {
+			mv.addObject("msg",e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
 	}
 }

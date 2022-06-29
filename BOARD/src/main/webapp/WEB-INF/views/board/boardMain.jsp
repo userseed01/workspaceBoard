@@ -9,9 +9,18 @@
 </head>
 <body>
 	<h2>게시판</h2>
-	<a href="/board/boardWriteView.eansoft">게시글 작성</a>
-	<br>
-	<br>
+	<a href="/board/boardWriteView.eansoft">게시글 작성</a><br><br>
+	
+	<form action="/board/boardSearchView.eansoft" method="get">
+		<select name="searchCondition">
+			<option value="boardTitle">제목</option>
+			<option value="boardContent">내용</option>
+			<option value="emplId">작성자</option>
+		</select>
+		<input type="text" name="searchValue">
+		<button type="submit">검색</button>
+	</form>
+	
 	<table border="1">
 		<tr>
 			<td>번호</td>
