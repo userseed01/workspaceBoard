@@ -61,17 +61,10 @@
 		WHERE BOARD_NO =#{boardNo}
 	</delete>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<!-- 게시판 메인 페이징 -->
+	<select id="selectPage" resultType="_int"> <!-- 결과값을 int로 받겠다 -->
+		SELECT COUNT(*)
+		FROM BOARD_TBL
+	</select>
 
 </mapper>

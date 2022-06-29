@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eansoft.work.board.domain.Board;
+import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.service.BoardService;
+import com.eansoft.work.common.Pagination;
 
 @Controller
 public class BoardController {
@@ -29,11 +31,22 @@ public class BoardController {
 
 	// 게시판 메인 화면
 	@RequestMapping(value = "/board/boardMainView.eansoft", method = RequestMethod.GET)
-	public ModelAndView boardMainView(ModelAndView mv) {
+	// int, Integer 모두 가능하나 Integer -> 널체크가 가능
+	public ModelAndView boardMainView(ModelAndView mv, @RequestParam(value="page", required = false) Integer page) {
+		// 페이징 처리
+		int currentPage = (page != null) ? page : 1;
+		// 비즈니스 로직 -> DB에서 전체 게시물 갯수 가져옴(총 갯수를 세야함)
+		int totalCount = bService.getListCount();
+		// 현재 페이지 게시물 갯수, 총 게시물 갯수
+		PageCount pc = Pagination.getPageCount(currentPage, totalCount);
+		// 비즈니스 로직 -> DB에서 데이터를 가져와야 함
 		try {
-			List<Board> bList = bService.printAllBoard();
+			// 리스트로 담아줌
+			List<Board> bList = bService.printAllBoard(pc);
 			if (!bList.isEmpty()) {
 				mv.addObject("bList", bList); // 담겨있는 값을 jsp로 넘겨 리스트를 쓸 수 있게
+				// 페이징 처리
+				mv.addObject("pc", pc);
 				mv.setViewName("board/boardMain");
 			} else {
 				mv.addObject("msg", "게시판 조회 실패");

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +9,9 @@
 </head>
 <body>
 	<h2>게시판</h2>
-	<a href="/board/boardWriteView.eansoft">게시글 작성</a><br><br>
+	<a href="/board/boardWriteView.eansoft">게시글 작성</a>
+	<br>
+	<br>
 	<table border="1">
 		<tr>
 			<td>번호</td>
@@ -19,7 +21,7 @@
 			<td>작성일</td>
 			<td>조회수</td>
 		</tr>
-		
+
 		<!-- forEach는 for문과 같음 -->
 		<!-- 테이블 헤드, td긴 한데 글씨가 더 진해짐 -->
 		<c:forEach items="${bList }" var="board">
@@ -29,17 +31,34 @@
 					<c:param name="boardNo" value="${board.boardNo }"></c:param> <!-- url로 보내겠다 -->
 				</c:url>
 				<td>${board.boardType }</td>
-				<th><a href="${bList }">${board.boardTitle }</a></th> <!-- var와 href맞춰주기 -->
-<%-- 				<c:url var="bList" value="/board/boardDetailView.eansoft">  --%>
-<%-- 					<c:param name="boardTitle" value="${board.boardTitle }"></c:param>  --%>
-<%-- 				</c:url> --%>
+				<th><a href="${bList }">${board.boardTitle }</a></th>
+				<!-- var와 href맞춰주기 -->
+				<%-- 				<c:url var="bList" value="/board/boardDetailView.eansoft">  --%>
+				<%-- 					<c:param name="boardTitle" value="${board.boardTitle }"></c:param>  --%>
+				<%-- 				</c:url> --%>
 				<!-- <td></td>   첨부파일 -->
 				<td>${board.emplId }</td>
 				<td>${board.boardDate }</td>
 				<td>${board.boardHits }</td>
 			</tr>
 		</c:forEach>
-		
+		<tr>
+			<td colspan="2">
+				<!-- 첫페이지면 이전 안보임 -->
+				<c:if test="${pc.currentPage > '1' }">
+					<button onclick="location.href='/board/boardMainView.eansoft?page=${pc.currentPage-1 }'">이전</button>
+				</c:if>
+				<c:forEach var="p" begin="${pc.startNavi }" end="${pc.endNavi }">
+					<c:url var="pagenation" value="/board/boardMainView.eansoft">
+						<c:param name="page" value="${p }"></c:param>
+					</c:url>
+					<a href="${pagenation }">${p }</a>&nbsp;
+				</c:forEach> <!-- 마지막페이지면 다음 안보임 -->
+				<c:if test="${pc.currentPage < pc.endNavi }">
+					<button onclick="location.href='/board/boardMainView.eansoft?page=${pc.currentPage+1 }'">다음</button>
+				</c:if>
+			</td>
+		</tr>
 	</table>
 </body>
 </html>

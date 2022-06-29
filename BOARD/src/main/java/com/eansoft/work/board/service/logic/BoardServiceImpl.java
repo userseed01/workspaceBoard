@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eansoft.work.board.domain.Board;
+import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.service.BoardService;
 import com.eansoft.work.board.store.BoardStore;
 
@@ -21,8 +22,8 @@ public class BoardServiceImpl implements BoardService{
 	
 	// 게시판 메인 화면
 	@Override
-	public List<Board> printAllBoard() {
-		List<Board> bList = bStore.selectAllMain(sqlSession);
+	public List<Board> printAllBoard(PageCount pc) {
+		List<Board> bList = bStore.selectAllMain(sqlSession, pc);
 		return bList;
 	}
 
@@ -51,6 +52,13 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int boardDelete(int boardNo) {
 		int result = bStore.deleteBoard(sqlSession, boardNo);
+		return result;
+	}
+
+	// 게시판 메인 페이징
+	@Override
+	public int getListCount() {
+		int result= bStore.selectListCount(sqlSession);
 		return result;
 	}
 }
