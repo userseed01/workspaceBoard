@@ -3,6 +3,7 @@ package com.eansoft.work.board.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,7 @@ public class BoardController {
 				mv.addObject("bList", bList); // 담겨있는 값을 jsp로 넘겨 리스트를 쓸 수 있게
 				// 페이징 처리
 				mv.addObject("pc", pc);
+				 mv.addObject("listType", "basicList"); // 검색 페이징 화면 , String으로 넘겨서 "" , b를l로 넘겨
 				mv.setViewName("board/boardMain");
 			} else {
 				mv.addObject("msg", "게시판 조회 실패");
@@ -146,13 +148,21 @@ public class BoardController {
 		}
 	}
 	
-	// 게시판 검색
+	// 게시판 검색 화면
 	@RequestMapping(value="/board/boardSearchView.eansoft", method=RequestMethod.GET)
-	public ModelAndView boardSearch(ModelAndView mv, @ModelAttribute Search search) {
+	public ModelAndView boardSearch(
+						ModelAndView mv, 
+						@ModelAttribute Search search, 
+						@RequestParam(value="page", required = false) Integer page) {
 		try {
-			List<Board> searchList = bService.printSearchBoard(search);
-			if(!searchList.isEmpty()) {
-				mv.addObject("bList", searchList);
+			int currentPage = (page != null) ? page : 1;
+	        int totalCount = bService.boardSearchListCount(search);
+	        PageCount pc = Pagination.getPageCount(currentPage, totalCount);
+			List<Board> bList = bService.printSearchBoard(search, pc);
+			if(!bList.isEmpty()) {
+				mv.addObject("bList", bList); // 메인 페이징 화면
+				mv.addObject("pc", pc);
+		        mv.addObject("listType", "searchList"); // 검색 페이징 화면
 				mv.setViewName("board/boardMain");
 			} else {
 				mv.addObject("msg", "검색 실패");

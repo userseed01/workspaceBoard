@@ -27,6 +27,12 @@
 		ORDER BY BOARD_NO DESC
 	</select>
 	
+	<!-- 게시판 메인 페이징 -->
+	<select id="selectPage" resultType="_int"> <!-- 결과값을 int로 받겠다, 갯수,평균 등 -->
+		SELECT COUNT(*)
+		FROM BOARD_TBL
+	</select>
+	
 	<!-- 게시글 상세조회 화면 -->
 	<select id="selectDetailBoard" resultMap="boardResultMap">
 		SELECT *
@@ -61,41 +67,33 @@
 		WHERE BOARD_NO =#{boardNo}
 	</delete>
 	
-	<!-- 게시판 메인 페이징 -->
-	<select id="selectPage" resultType="_int"> <!-- 결과값을 int로 받겠다 -->
-		SELECT COUNT(*)
-		FROM BOARD_TBL
-	</select>
-
-	<!-- 게시판 검색 -->
+	<!-- 게시판 검색 화면 -->
 	<select id="selectSearchBoard" resultMap="boardResultMap">
+		SELECT * FROM BOARD_TBL WHERE
 		<if test="searchCondition.toString() =='boardTitle'">
-			SELECT *
-			FROM BOARD_TBL
-			WHERE BOARD_TITLE LIKE '%' || #{searchValue} || '%'
+			 BOARD_TITLE LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchCondition.toString() =='boardContent'">
-			SELECT *
-			FROM BOARD_TBL
-			WHERE BOARD_CONTENT LIKE '%' || #{searchValue} || '%'
+			BOARD_CONTENT LIKE '%' || #{searchValue} || '%'
 		</if>
 		<if test="searchCondition.toString() =='emplId'">
-			SELECT *
-			FROM BOARD_TBL
-			WHERE EMPL_ID LIKE '%' || #{searchValue} || '%'
+			EMPL_ID LIKE '%' || #{searchValue} || '%'
 		</if>
 		ORDER BY BOARD_NO DESC
 	</select>
 
-
-
-
-
-
-
-
-
-
-
+	<!-- 게시판 검색 페이징 -->
+	<select id="selectSearchPage" resultType="_int"> <!-- 갯수만 알려줌 -->
+		SELECT COUNT(*) FROM BOARD_TBL WHERE
+		<if test="searchCondition.toString() =='boardTitle'"> 
+			 BOARD_TITLE LIKE '%' || #{searchValue} || '%' <!-- 앞뒤로 유사한것들을 가져와라 -->
+		</if>
+		<if test="searchCondition.toString() =='boardContent'">
+			BOARD_CONTENT LIKE '%' || #{searchValue} || '%'
+		</if>
+		<if test="searchCondition.toString() =='emplId'">
+			EMPL_ID LIKE '%' || #{searchValue} || '%'
+		</if>
+	</select>
 
 </mapper>

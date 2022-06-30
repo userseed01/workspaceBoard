@@ -13,6 +13,9 @@ public interface BoardStore {
 	// 게시판 메인 화면
 	public List<Board> selectAllMain(SqlSession sqlSession, PageCount pc);
 
+	// 게시판 메인 페이징
+	public int selectListCount(SqlSession sqlSession);
+	
 	// 게시글 상세조회 화면
 	public Board selectDetailBoard(SqlSession sqlSession, Integer boardNo);
 
@@ -25,9 +28,9 @@ public interface BoardStore {
 	// 게시글 삭제 화면
 	public int deleteBoard(SqlSession sqlSession, int boardNo);
 
-	// 게시판 메인 페이징
-	public int selectListCount(SqlSession sqlSession);
+	// 게시판 검색 화면
+	public List<Board> selectSearchBoard(SqlSession sqlSession, Search search, PageCount pc);
 
-	// 게시판 검색
-	public List<Board> selectSearchBoard(SqlSession sqlSession, Search search);
+	// 게시판 검색 페이징
+	public int selectSearchCount(SqlSession sqlSession, Search search);
 }

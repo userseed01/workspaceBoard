@@ -46,6 +46,7 @@
 	<c:url var="boardModify" value="/board/boardModifyView.eansoft"> <!-- form의 action같은것 -->
 		<c:param name="boardNo" value="${board.boardNo }"></c:param> <!-- url로 보내겠다 -->
 	</c:url>
+	
 	<button type="button" onclick="location.href='${boardModify }';">수정</button>
 	
 	<!-- no를 꼭 넘겨줘야함 -->

@@ -28,6 +28,13 @@ public class BoardServiceImpl implements BoardService{
 		return bList;
 	}
 
+	// 게시판 메인 페이징
+	@Override
+	public int getListCount() {
+		int result= bStore.selectListCount(sqlSession);
+		return result;
+	}
+	
 	// 게시글 상세조회 화면
 	@Override
 	public Board printDetailBoard(Integer boardNo) {
@@ -55,18 +62,18 @@ public class BoardServiceImpl implements BoardService{
 		int result = bStore.deleteBoard(sqlSession, boardNo);
 		return result;
 	}
-
-	// 게시판 메인 페이징
-	@Override
-	public int getListCount() {
-		int result= bStore.selectListCount(sqlSession);
-		return result;
-	}
 	
-	// 게시판 검색
+	// 게시판 검색 화면
 	@Override
-	public List<Board> printSearchBoard(Search search) {
-		List<Board> bList = bStore.selectSearchBoard(sqlSession, search);
+	public List<Board> printSearchBoard(Search search, PageCount pc) {
+		List<Board> bList = bStore.selectSearchBoard(sqlSession, search, pc);
 		return bList;
+	}
+
+	// 게시판 검색 페이징
+	@Override
+	public int boardSearchListCount(Search search) {
+		int result = bStore.selectSearchCount(sqlSession, search);
+		return result;
 	}
 }

@@ -17,7 +17,7 @@
 			<tr>
 				<td>제목</td>
 				<td>
-					<input type="text" name="boardTitle" value="${board.boardTitle }">
+					<input type="text" name="boardTitle" value="${board.boardTitle }" autocomplete="off">
 				</td>
 			</tr>
 			<tr>
@@ -29,7 +29,7 @@
 			<tr>
 				<td>내용</td>
 				<td>
-					<input type="text" name="boardContent" value="${board.boardContent }">
+					<input type="text" name="boardContent" value="${board.boardContent }" autocomplete="off">
 				</td>
 			</tr>
 			<!-- 			<tr> -->

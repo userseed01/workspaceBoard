@@ -11,6 +11,9 @@ public interface BoardService {
 	// 게시판 메인 화면
 	public List<Board> printAllBoard(PageCount pc);
 
+	// 게시판 메인 페이징
+	public int getListCount();
+	
 	// 게시글 상세조회 화면
 	public Board printDetailBoard(Integer boardNo);
 
@@ -23,9 +26,9 @@ public interface BoardService {
 	// 게시글 삭제 화면
 	public int boardDelete(int boardNo);
 
-	// 게시판 메인 페이징
-	public int getListCount();
+	// 게시판 검색 화면
+	public List<Board> printSearchBoard(Search search, PageCount pc);
 
-	// 게시판 검색
-	public List<Board> printSearchBoard(Search search);
+	// 게시판 검색 페이징
+	public int boardSearchListCount(Search search);
 }

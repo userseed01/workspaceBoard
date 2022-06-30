@@ -9,8 +9,10 @@
 </head>
 <body>
 	<h2>게시판</h2>
-	<a href="/board/boardWriteView.eansoft">게시글 작성</a><br><br>
-	
+	<a href="/board/boardWriteView.eansoft">게시글 작성</a>
+	<br>
+	<br>
+
 	<form action="/board/boardSearchView.eansoft" method="get">
 		<select name="searchCondition">
 			<option value="boardTitle">제목</option>
@@ -20,7 +22,7 @@
 		<input type="text" name="searchValue">
 		<button type="submit">검색</button>
 	</form>
-	
+
 	<table border="1">
 		<tr>
 			<td>번호</td>
@@ -51,23 +53,49 @@
 				<td>${board.boardHits }</td>
 			</tr>
 		</c:forEach>
-		<tr>
-			<td colspan="2">
-				<!-- 첫페이지면 이전 안보임 -->
-				<c:if test="${pc.currentPage > '1' }">
-					<button onclick="location.href='/board/boardMainView.eansoft?page=${pc.currentPage-1 }'">이전</button>
-				</c:if>
-				<c:forEach var="p" begin="${pc.startNavi }" end="${pc.endNavi }">
-					<c:url var="pagenation" value="/board/boardMainView.eansoft">
-						<c:param name="page" value="${p }"></c:param>
-					</c:url>
-					<a href="${pagenation }">${p }</a>&nbsp;
-				</c:forEach> <!-- 마지막페이지면 다음 안보임 -->
-				<c:if test="${pc.currentPage < pc.endNavi }">
-					<button onclick="location.href='/board/boardMainView.eansoft?page=${pc.currentPage+1 }'">다음</button>
-				</c:if>
-			</td>
-		</tr>
+
+		<c:if test="${listType eq 'basicList'}">
+			<tr>
+				<td colspan="2">
+					<!-- 첫페이지면 이전 안보임 -->
+					<c:if test="${pc.currentPage > '1' }">
+						<button onclick="location.href='/board/boardMainView.eansoft?page=${pc.currentPage-1 }'">이전</button>
+					</c:if>
+					<c:forEach var="p" begin="${pc.startNavi }" end="${pc.endNavi }">
+						<c:url var="pagenation" value="/board/boardMainView.eansoft">
+							<c:param name="page" value="${p }"></c:param>
+						</c:url>
+						<a href="${pagenation }">${p }</a>&nbsp;
+					</c:forEach>
+					<!-- 마지막페이지면 다음 안보임 -->
+					<c:if test="${pc.currentPage < pc.endNavi }">
+						<button onclick="location.href='/board/boardMainView.eansoft?page=${pc.currentPage+1 }'">다음</button>
+					</c:if>
+				</td>
+			</tr>
+		</c:if>
+
+		<c:if test="${listType eq 'searchList' && not empty bList}"> <!--  controller에서 가져옴, l이s면 ,and 비지않았으면, 결과가 있으면 -->
+			<tr>
+				<td colspan="2">
+					<!-- 첫페이지면 이전 안보임 -->
+					<c:if test="${pc.currentPage > '1' }">
+						<button onclick="location.href='/board/boardSearchView.eansoft?page=${pc.currentPage-1 }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }'">이전</button>
+					</c:if>
+					<c:forEach var="p" begin="${pc.startNavi }" end="${pc.endNavi }">
+						<c:url var="pagenation" value="/board/boardSearchView.eansoft?&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }">
+							<c:param name="page" value="${p }"></c:param>
+						</c:url>
+						<a href="${pagenation }">${p }</a>&nbsp;
+					</c:forEach>
+					<!-- 마지막페이지면 다음 안보임 -->
+					<c:if test="${pc.currentPage < pc.endNavi }">
+						<button onclick="location.href='/board/boardSearchView.eansoft?page=${pc.currentPage+1 }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }'">다음</button>
+					</c:if>
+				</td>
+			</tr>
+		</c:if>
+		
 	</table>
 </body>
 </html>
