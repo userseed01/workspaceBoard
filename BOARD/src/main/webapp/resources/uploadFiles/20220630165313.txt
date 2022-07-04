@@ -1,0 +1,69 @@
+<c:if test="${listType eq 'basicList'}">
+	<div class="btns--paging">
+      		<button class="fa-solid fa-angles-left first"
+      			<c:if test="${pi.currentPage > '1' }">
+				onclick="location.href='/board/list.eansoft?page=${pi.startNavi }'"
+			</c:if>>
+		</button>
+      
+		<button class="fa-solid fa-angle-left prev"
+      			<c:if test="${pi.currentPage > '1' }">
+				onclick="location.href='/board/list.eansoft?page=${pi.currentPage-1 }'"
+			</c:if>>
+		</button>
+
+		<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
+         			<c:url var="pagination" value="/board/list.eansoft">
+            				<c:param name="page" value="${p }"></c:param>
+         			</c:url>&nbsp;
+			<a href="${pagination }">${p }</a>&nbsp;
+      		</c:forEach>
+      
+		<button class="fa-solid fa-angle-right next"
+			<c:if test="${pi.currentPage < pi.endNavi }">
+				onclick="location.href='/board/list.eansoft?page=${pi.currentPage+1 }'"
+			</c:if>>
+		</button>
+      
+		<button class="fa-solid fa-angles-right last"
+      			<c:if test="${pi.currentPage < pi.endNavi }">
+				onclick="location.href='/board/list.eansoft?page=${pi.endNavi }'"
+			</c:if>>
+		</button>
+   	</div>
+ </c:if> 
+-------------------------------------------------------------------------------------------------------------------------------------
+<c:if test="${listType eq 'searchList' && not empty bList}">
+	<div class="btns--paging">
+     		 <button class="fa-solid fa-angles-left first"
+      			<c:if test="${pi.currentPage > '1' }">
+				onclick="location.href='/board/searchList.eansoft?page=${pi.startNavi }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }'"
+			</c:if>>
+		</button>
+
+		<button class="fa-solid fa-angle-left prev"
+     			<c:if test="${pi.currentPage > '1' }">
+				onclick="location.href='/board/searchList.eansoft?page=${pi.currentPage-1 }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }'"
+			</c:if>>
+		</button>
+
+		<c:forEach var="p" begin="${pi.startNavi }" end="${pi.endNavi }">
+			<c:url var="searchPagination" value="/board/searchList.eansoft?searchCondition=${search.searchCondition }&searchValue=${search.searchValue }">
+				<c:param name="page" value="${p }"></c:param>
+			</c:url>&nbsp;
+			<a href="${searchPagination }">${p }</a>&nbsp;
+     		</c:forEach>
+
+		<button class="fa-solid fa-angle-right next"
+      			<c:if test="${pi.currentPage< pi.endNavi }">
+				onclick="location.href='/board/searchList.eansoft?page=${pi.currentPage+1 }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }'"
+			</c:if>>
+		</button>
+
+      		<button class="fa-solid fa-angles-right last"
+      			<c:if test="${pi.currentPage < pi.endNavi }">
+				onclick="location.href='/board/searchList.eansoft?page=${pi.endNavi }&searchCondition=${search.searchCondition }&searchValue=${search.searchValue }'"
+			</c:if>>
+		</button>
+   	</div>
+   </c:if>

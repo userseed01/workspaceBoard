@@ -10,9 +10,20 @@
 		<result property="boardType" column="BOARD_TYPE"></result>
 		<result property="boardTitle" column="BOARD_TITLE"></result>
 		<result property="boardContent" column="BOARD_CONTENT"></result>
+		<result property="fileCount" column="FILE_COUNT"></result>
 		<result property="emplId" column="EMPL_ID"></result>
 		<result property="boardDate" column="BOARD_DATE"></result>
 		<result property="boardHits" column="BOARD_HITS"></result>
+		<!-- bList -->
+		<collection property="bList" column="BOARD_NO" javaType="java.util.ArrayList" ofType="File" select="selectBoardFiles"></collection>
+	</resultMap>
+	
+	<resultMap type="File" id="fileResultMap">
+		<id property="fileNo" column="FILE_NO"></id>
+		<result property="boardNo" column="BOARD_NO"></result>
+		<result property="fileName" column="FILE_NAME"></result>
+		<result property="fileRename" column="FILE_RENAME"></result>
+		<result property="filePath" column="FILE_PATH"></result>
 	</resultMap>
 	
 	<!-- 마이바티스에 줄이려고 써둠 parameterType -->
@@ -20,11 +31,12 @@
 	<!-- 위에 타입, 아이디 중 적어줌 -->
 	<!-- select는 resultMap필요함  -->
 	
-	<!-- 게시판 메인 페이지 -->
+	<!-- 게시판 메인 페이지 (첨부파일 개수 포함)-->
 	<select id="selectAllBoard" resultMap="boardResultMap">
-		SELECT *
-		FROM BOARD_TBL
-		ORDER BY BOARD_NO DESC
+		SELECT B.BOARD_NO, B.BOARD_TYPE, B.BOARD_TITLE, NVL(CNT,0) AS FILE_COUNT, B.EMPL_ID, B.BOARD_DATE, B.BOARD_HITS
+		FROM BOARD_TBL B
+		LEFT OUTER JOIN (SELECT F.BOARD_NO, COUNT(FILE_NO) AS CNT FROM FILE_TBL F GROUP BY F.BOARD_NO) C ON(B.BOARD_NO = C.BOARD_NO)
+		ORDER BY B.BOARD_NO DESC
 	</select>
 	
 	<!-- 게시판 메인 페이징 -->
@@ -40,11 +52,32 @@
 		WHERE BOARD_NO = #{boardNo}
 	</select>
 	
+	<!-- 게시글 상세조회 화면 조회수 증가 -->
+	<update id="updateCount" parameterType="int">
+		UPDATE BOARD_TBL
+		SET BOARD_HITS = BOARD_HITS + 1
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
 	<!-- 게시글 작성 -->
 	<insert id="insertWriteBorad" parameterType="Board">
 		INSERT INTO BOARD_TBL(BOARD_NO, BOARD_TYPE, BOARD_TITLE, BOARD_CONTENT, EMPL_ID, BOARD_DATE)
 		VALUES (BOARD_NO.NEXTVAL, #{boardType}, #{boardTitle}, #{boardContent}, #{emplId}, SYSDATE)
 	</insert>
+	
+	<!-- 게시글 작성 시 첨부파일 업로드 -->
+	<!-- NEXTVAL, CURRVAL(게시글 넘버만 조회) -->
+	<insert id="insertFile" parameterType="File">
+		INSERT INTO FILE_TBL
+		VALUES(FILE_NO.NEXTVAL, BOARD_NO.CURRVAL, #{fileName}, #{fileRename}, #{filePath})
+	</insert>
+	
+	<!-- 게시글 첨부파일 조회 -->
+	<select id="selectBoardFiles" resultMap="fileResultMap">
+		SELECT *
+		FROM FILE_TBL
+		WHERE BOARD_NO = #{boardNo}
+	</select>
 	
 	<!-- 게시글 수정 -->
 	<update id="updateBoard" parameterType="Board">

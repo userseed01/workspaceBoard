@@ -12,11 +12,12 @@
 	<typeAliases>
 		<typeAlias type="com.eansoft.work.employee.domain.Employee" alias="Employee"></typeAlias>
 		<typeAlias type="com.eansoft.work.board.domain.Board" alias="Board"></typeAlias>
+		<typeAlias type="com.eansoft.work.board.domain.File" alias="File"></typeAlias>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mappers/employee-mapper.xml"></mapper>
-		<mapper resource="mappers/board-mapper.xml"></mapper> 
+		<mapper resource="mappers/board-mapper.xml"></mapper>
 	</mappers>
 
 </configuration>

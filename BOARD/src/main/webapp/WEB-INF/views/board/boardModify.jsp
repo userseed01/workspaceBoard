@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,10 +33,14 @@
 					<input type="text" name="boardContent" value="${board.boardContent }" autocomplete="off">
 				</td>
 			</tr>
-			<!-- 			<tr> -->
-			<!-- 				<td>첨부파일</td> -->
-			<!-- 				<td></td> -->
-			<!-- 			</tr> -->
+			<tr>
+				<td>첨부파일</td>
+				<td>
+					<c:forEach var="file" items="${board.bList }"> <!-- var 내가정함, item 컨트롤러에서 가져옴 -->
+						${file.fileName }
+					</c:forEach>
+				</td>
+			</tr>
 			<tr>
 				<td>작성자</td>
 				<td>

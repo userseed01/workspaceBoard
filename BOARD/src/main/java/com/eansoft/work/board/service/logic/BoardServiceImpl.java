@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eansoft.work.board.domain.Board;
+import com.eansoft.work.board.domain.File;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.service.BoardService;
 import com.eansoft.work.board.store.BoardStore;
@@ -42,6 +43,13 @@ public class BoardServiceImpl implements BoardService{
 		return board;
 	}
 
+	// 게시글 상세조회 화면 조회수 증가
+	@Override
+	public int viewCount(Integer boardNo) {
+		int result = bStore.updateViewCount(sqlSession, boardNo);
+		return result;
+	}
+	
 	// 게시글 작성
 	@Override
 	public int boardWrite(Board board) {
@@ -49,6 +57,13 @@ public class BoardServiceImpl implements BoardService{
 		return result;
 	}
 
+	// 게시글 작성 시 첨부파일 업로드
+	@Override
+	public int registerBoardFile(File file) {
+		int result = bStore.insertFile(sqlSession, file);
+		return result;
+	}
+	
 	// 게시글 수정
 	@Override
 	public int boardModify(Board board) {

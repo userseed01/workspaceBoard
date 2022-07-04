@@ -3,6 +3,8 @@ package com.eansoft.work.board.domain;
 import java.sql.Date;
 import java.util.List;
 
+import com.eansoft.work.common.SaveAttachedFile;
+
 
 public class Board {
 
@@ -10,20 +12,23 @@ public class Board {
 	private String boardType;
 	private String boardTitle;
 	private String boardContent;
-	// private List<BoardAttachedFile> bList; 첨부파일 나중에
+	private List<File> bList; // 첨부파일
+	private int fileCount; // 첨부파일 개수
 	private String emplId;
 	private Date boardDate;
 	private int boardHits;
 	
 	public Board() {}
 
-	public Board(int boardNo, String boardType, String boardTitle, String boardContent, String emplId, Date boardDate,
-			int boardHits) {
+	public Board(int boardNo, String boardType, String boardTitle, String boardContent, List<File> bList, int fileCount,
+			String emplId, Date boardDate, int boardHits) {
 		super();
 		this.boardNo = boardNo;
 		this.boardType = boardType;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
+		this.bList = bList;
+		this.fileCount = fileCount;
 		this.emplId = emplId;
 		this.boardDate = boardDate;
 		this.boardHits = boardHits;
@@ -61,6 +66,22 @@ public class Board {
 		this.boardContent = boardContent;
 	}
 
+	public List<File> getbList() {
+		return bList;
+	}
+
+	public void setbList(List<File> bList) {
+		this.bList = bList;
+	}
+
+	public int getFileCount() {
+		return fileCount;
+	}
+
+	public void setFileCount(int fileCount) {
+		this.fileCount = fileCount;
+	}
+
 	public String getEmplId() {
 		return emplId;
 	}
@@ -88,7 +109,7 @@ public class Board {
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardType=" + boardType + ", boardTitle=" + boardTitle
-				+ ", boardContent=" + boardContent + ", emplId=" + emplId + ", boardDate=" + boardDate + ", boardHits="
-				+ boardHits + "]";
+				+ ", boardContent=" + boardContent + ", bList=" + bList + ", fileCount=" + fileCount + ", emplId="
+				+ emplId + ", boardDate=" + boardDate + ", boardHits=" + boardHits + "]";
 	}
 }

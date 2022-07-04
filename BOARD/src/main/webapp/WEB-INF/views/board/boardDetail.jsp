@@ -28,6 +28,17 @@
 			<td>${board.boardContent }</td>
 		</tr>
 		<tr>
+			<td>첨부파일</td>
+			<td>
+				<c:forEach var="file" items="${board.bList }">
+					<a href="../../../resources/uploadFiles/${file.fileRename }" download>${file.fileName}</a>
+				</c:forEach>
+				<c:if test="${empty board.bList}">
+					<p>등록된 파일이 없습니다.</p>
+				</c:if>
+			</td>
+		</tr>
+		<tr>
 			<td>작성자</td>
 			<td>${board.emplId }</td>
 		</tr>

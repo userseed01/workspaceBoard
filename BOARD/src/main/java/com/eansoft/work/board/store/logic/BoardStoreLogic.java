@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.eansoft.work.board.domain.Board;
+import com.eansoft.work.board.domain.File;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.store.BoardStore;
 import com.eansoft.work.common.Search;
@@ -47,10 +48,24 @@ public class BoardStoreLogic implements BoardStore{
 		return board;
 	}
 
+	// 게시글 상세조회 화면 조회수 증가
+	@Override
+	public int updateViewCount(SqlSession sqlSession, Integer boardNo) {
+		int result = sqlSession.update("BoardMapper.updateCount", boardNo);
+		return result;
+	}
+	
 	// 게시글 작성
 	@Override
 	public int insertBoard(SqlSession sqlSession, Board board) {
 		int result = sqlSession.insert("BoardMapper.insertWriteBorad", board);
+		return result;
+	}
+	
+	// 게시글 작성 시 첨부파일 업로드
+	@Override
+	public int insertFile(SqlSession sqlSession, File file) {
+		int result = sqlSession.insert("BoardMapper.insertFile", file);
 		return result;
 	}
 

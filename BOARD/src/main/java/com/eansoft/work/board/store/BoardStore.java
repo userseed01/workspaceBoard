@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.eansoft.work.board.domain.Board;
+import com.eansoft.work.board.domain.File;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.common.Search;
 
@@ -19,8 +20,14 @@ public interface BoardStore {
 	// 게시글 상세조회 화면
 	public Board selectDetailBoard(SqlSession sqlSession, Integer boardNo);
 
+	// 게시글 상세조회 화면 조회수 증가
+	public int updateViewCount(SqlSession sqlSession, Integer boardNo);
+	
 	// 게시글 작성
 	public int insertBoard(SqlSession sqlSession, Board board);
+
+	// 게시글 작성 시 첨부파일 업로드
+	public int insertFile(SqlSession sqlSession, File file);
 
 	// 게시글 수정
 	public int updateBoard(SqlSession sqlSession, Board board);

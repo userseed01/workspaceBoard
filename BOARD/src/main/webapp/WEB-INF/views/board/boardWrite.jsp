@@ -29,10 +29,10 @@
 				<td>내용</td>
 				<td><input type="text" name="boardContent" autocomplete="off"></td>
 			</tr>
-			<!-- 			<tr> -->
-			<!-- 				<td>첨부파일</td> -->
-			<!-- 				<td><input type="text" name=""></td> -->
-			<!-- 			</tr> -->
+			<tr>
+				<td>첨부파일</td>
+				<td><input type="file" name="uploadFile" multiple></td>
+			</tr>
 			<tr>
 				<td>작성자</td>
 				<td>${sessionScope.emplId }</td> <!-- 눈에만 보이고 db로는 안들어감 -->

@@ -1,5 +1,6 @@
 package com.eansoft.work.board.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +14,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eansoft.work.board.domain.Board;
+import com.eansoft.work.board.domain.File;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.service.BoardService;
 import com.eansoft.work.common.Pagination;
+import com.eansoft.work.common.SaveAttachedFile;
 import com.eansoft.work.common.Search;
 
 @Controller
@@ -34,7 +38,7 @@ public class BoardController {
 	// 게시판 메인 화면
 	@RequestMapping(value = "/board/boardMainView.eansoft", method = RequestMethod.GET)
 	// int, Integer 모두 가능하나 Integer -> 널체크가 가능
-	public ModelAndView boardMainView(ModelAndView mv, @RequestParam(value="page", required = false) Integer page) {
+	public ModelAndView boardMainView(ModelAndView mv, @RequestParam(value = "page", required = false) Integer page) {
 		// 페이징 처리
 		int currentPage = (page != null) ? page : 1;
 		// 비즈니스 로직 -> DB에서 전체 게시물 갯수 가져옴(총 갯수를 세야함)
@@ -49,7 +53,7 @@ public class BoardController {
 				mv.addObject("bList", bList); // 담겨있는 값을 jsp로 넘겨 리스트를 쓸 수 있게
 				// 페이징 처리
 				mv.addObject("pc", pc);
-				 mv.addObject("listType", "basicList"); // 검색 페이징 화면 , String으로 넘겨서 "" , b를l로 넘겨
+				mv.addObject("listType", "basicList"); // 검색 페이징 화면 , String으로 넘겨서 "" , b를l로 넘겨
 				mv.setViewName("board/boardMain");
 			} else {
 				mv.addObject("msg", "게시판 조회 실패");
@@ -66,6 +70,8 @@ public class BoardController {
 	@RequestMapping(value = "/board/boardDetailView.eansoft", method = RequestMethod.GET)
 	public String boardDetailView(Model model, @RequestParam("boardNo") Integer boardNo) {
 		Board board = bService.printDetailBoard(boardNo);
+		// 조회수 증가
+		int result = bService.viewCount(boardNo);
 		if (board != null) { // 값을 담아와야해서 int를 쓸 수 없음
 			model.addAttribute("board", board);
 			return "board/boardDetail";
@@ -83,12 +89,39 @@ public class BoardController {
 
 	// 게시글 작성
 	@RequestMapping(value = "/board/boardWrite.eansoft", method = RequestMethod.POST)
-	public String boardWrite(Model model, @ModelAttribute Board board) {
-		int result = bService.boardWrite(board); // 성공 실패 여부는 보통 int
-		if (result > 0) {
-			return "redirect:/board/boardMainView.eansoft"; // url, 그냥 return은 jsp이름
-		} else {
-			model.addAttribute("msg", "게시글 등록 실패");
+	public String boardWrite(Model model, @ModelAttribute File file, @ModelAttribute Board board
+			// 첨부파일
+			, HttpServletRequest request,
+			@RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFile) { // 파일 가져올 때
+		try {
+			if (uploadFile.size() > 0 && !uploadFile.get(0).getOriginalFilename().equals("")) { // 있을때만(없지않으면)
+				for (int i = 0; i < uploadFile.size(); i++) { // 가져온 파일의 갯수만큼 계속 db에 쌓음(다중 첨부파일)
+					HashMap<String, String> fileMap = SaveAttachedFile.saveFile(uploadFile.get(i), request); // 업로드한 파일 저장하고 경로 리턴
+					String filePath = fileMap.get("filePath"); // 실제 파일 저장
+					String fileName = fileMap.get("fileName");
+					String fileRename = fileMap.get("fileRename");
+					if (fileRename != null) { // 파일 데이터(이름만) 저장, 다른 것도 가능(크기, 확장자, ..)
+						file.setFilePath(filePath);
+						file.setFileName(fileName);
+						file.setFileRename(fileRename);
+					// 첨부파일
+					int fResult = bService.registerBoardFile(file); // result 같은거 한번밖에 못씀
+					if( fResult <= 0) {
+						model.addAttribute("msg", "첨부파일 등록 실패");
+						return "common/errorPage";
+					}
+					}
+				}
+			}
+			int result = bService.boardWrite(board); // 성공 실패 여부는 보통 int
+			if (result > 0) {
+				return "redirect:/board/boardMainView.eansoft"; // url, 그냥 return은 jsp이름
+			} else {
+				model.addAttribute("msg", "게시글 등록 실패");
+				return "common/errorPage";
+			}
+		} catch (Exception e) {
+			model.addAttribute("msg", e.toString());
 			return "common/errorPage";
 		}
 	}
@@ -115,7 +148,7 @@ public class BoardController {
 	// 게시글 수정
 	@RequestMapping(value = "/board/boardModify.eansoft", method = RequestMethod.POST)
 	public String boardModify(@RequestParam("boardNo") int boardNo, @RequestParam("boardTitle") String boardTitle,
-			@RequestParam("boardContent") String boardContent) {
+			@RequestParam("boardContent") String boardContent) { // 화면에서 정보 갖고옴 리퀘스트파람(보통 인서트, 업데이트때 사용), 수정하려고 써준것
 		try {
 			Board board = new Board();
 			board.setBoardNo(boardNo);
@@ -134,7 +167,7 @@ public class BoardController {
 	}
 
 	// 게시글 삭제 화면
-	@RequestMapping(value="/board/boardDeleteView.eansoft", method=RequestMethod.GET)
+	@RequestMapping(value = "/board/boardDeleteView.eansoft", method = RequestMethod.GET)
 	public String boardDelete(@RequestParam(value = "boardNo", required = false) Integer boardNo) {
 		try {
 			int result = bService.boardDelete(boardNo);
@@ -147,29 +180,27 @@ public class BoardController {
 			return e.toString();
 		}
 	}
-	
+
 	// 게시판 검색 화면
-	@RequestMapping(value="/board/boardSearchView.eansoft", method=RequestMethod.GET)
-	public ModelAndView boardSearch(
-						ModelAndView mv, 
-						@ModelAttribute Search search, 
-						@RequestParam(value="page", required = false) Integer page) {
+	@RequestMapping(value = "/board/boardSearchView.eansoft", method = RequestMethod.GET)
+	public ModelAndView boardSearch(ModelAndView mv, @ModelAttribute Search search,
+			@RequestParam(value = "page", required = false) Integer page) {
 		try {
 			int currentPage = (page != null) ? page : 1;
-	        int totalCount = bService.boardSearchListCount(search);
-	        PageCount pc = Pagination.getPageCount(currentPage, totalCount);
+			int totalCount = bService.boardSearchListCount(search);
+			PageCount pc = Pagination.getPageCount(currentPage, totalCount);
 			List<Board> bList = bService.printSearchBoard(search, pc);
-			if(!bList.isEmpty()) {
+			if (!bList.isEmpty()) {
 				mv.addObject("bList", bList); // 메인 페이징 화면
 				mv.addObject("pc", pc);
-		        mv.addObject("listType", "searchList"); // 검색 페이징 화면
+				mv.addObject("listType", "searchList"); // 검색 페이징 화면
 				mv.setViewName("board/boardMain");
 			} else {
 				mv.addObject("msg", "검색 실패");
 				mv.setViewName("common/errorPage");
 			}
 		} catch (Exception e) {
-			mv.addObject("msg",e.toString());
+			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");
 		}
 		return mv;

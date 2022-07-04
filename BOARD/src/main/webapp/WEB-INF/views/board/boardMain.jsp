@@ -28,6 +28,7 @@
 			<td>번호</td>
 			<td>종류</td>
 			<td>제목</td>
+			<td>첨부파일 개수</td>
 			<td>작성자</td>
 			<td>작성일</td>
 			<td>조회수</td>
@@ -47,7 +48,7 @@
 				<%-- 				<c:url var="bList" value="/board/boardDetailView.eansoft">  --%>
 				<%-- 					<c:param name="boardTitle" value="${board.boardTitle }"></c:param>  --%>
 				<%-- 				</c:url> --%>
-				<!-- <td></td>   첨부파일 -->
+				<td>${board.fileCount }</td>
 				<td>${board.emplId }</td>
 				<td>${board.boardDate }</td>
 				<td>${board.boardHits }</td>
