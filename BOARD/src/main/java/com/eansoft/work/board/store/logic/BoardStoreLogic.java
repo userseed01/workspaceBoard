@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.eansoft.work.board.domain.Board;
+import com.eansoft.work.board.domain.Comment;
 import com.eansoft.work.board.domain.File;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.store.BoardStore;
@@ -105,5 +106,12 @@ public class BoardStoreLogic implements BoardStore{
 	public int selectSearchCount(SqlSession sqlSession, Search search) {
 		int result = sqlSession.selectOne("BoardMapper.selectSearchPage", search);
 		return result;
+	}
+
+	// 게시글 상세조회 시 댓글 조회 화면
+	@Override
+	public List<Comment> selectCommentBoard(SqlSession sqlSession, int boardNo) {
+		List<Comment> cList = sqlSession.selectList("BoardMapper.selectComment", boardNo);
+		return cList;
 	}
 }

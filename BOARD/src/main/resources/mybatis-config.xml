@@ -13,6 +13,7 @@
 		<typeAlias type="com.eansoft.work.employee.domain.Employee" alias="Employee"></typeAlias>
 		<typeAlias type="com.eansoft.work.board.domain.Board" alias="Board"></typeAlias>
 		<typeAlias type="com.eansoft.work.board.domain.File" alias="File"></typeAlias>
+		<typeAlias type="com.eansoft.work.board.domain.Comment" alias="Comment"></typeAlias>
 	</typeAliases>
 	
 	<mappers>

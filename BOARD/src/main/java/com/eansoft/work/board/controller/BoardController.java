@@ -14,16 +14,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.eansoft.work.board.domain.Board;
+import com.eansoft.work.board.domain.Comment;
 import com.eansoft.work.board.domain.File;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.service.BoardService;
 import com.eansoft.work.common.Pagination;
 import com.eansoft.work.common.SaveAttachedFile;
 import com.eansoft.work.common.Search;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Controller
 public class BoardController {
@@ -69,9 +73,9 @@ public class BoardController {
 	// 게시글 상세조회 화면
 	@RequestMapping(value = "/board/boardDetailView.eansoft", method = RequestMethod.GET)
 	public String boardDetailView(Model model, @RequestParam("boardNo") Integer boardNo) {
-		Board board = bService.printDetailBoard(boardNo);
 		// 조회수 증가
 		int result = bService.viewCount(boardNo);
+		Board board = bService.printDetailBoard(boardNo);
 		if (board != null) { // 값을 담아와야해서 int를 쓸 수 없음
 			model.addAttribute("board", board);
 			return "board/boardDetail";
@@ -94,6 +98,7 @@ public class BoardController {
 			, HttpServletRequest request,
 			@RequestParam(value = "uploadFile", required = false) List<MultipartFile> uploadFile) { // 파일 가져올 때
 		try {
+			int result = bService.boardWrite(board); // 성공 실패 여부는 보통 int
 			if (uploadFile.size() > 0 && !uploadFile.get(0).getOriginalFilename().equals("")) { // 있을때만(없지않으면)
 				for (int i = 0; i < uploadFile.size(); i++) { // 가져온 파일의 갯수만큼 계속 db에 쌓음(다중 첨부파일)
 					HashMap<String, String> fileMap = SaveAttachedFile.saveFile(uploadFile.get(i), request); // 업로드한 파일 저장하고 경로 리턴
@@ -113,7 +118,6 @@ public class BoardController {
 					}
 				}
 			}
-			int result = bService.boardWrite(board); // 성공 실패 여부는 보통 int
 			if (result > 0) {
 				return "redirect:/board/boardMainView.eansoft"; // url, 그냥 return은 jsp이름
 			} else {
@@ -204,5 +208,18 @@ public class BoardController {
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
+	}
+	
+	// 게시글 상세조회 시 댓글 조회 화면
+	@ResponseBody
+	@RequestMapping(value="/board/boardCommentView.eansoft", method= RequestMethod.GET, produces = "application/json;charset=utf-8")
+	public String boardComment(@RequestParam("boardNo") int boardNo) {
+		List<Comment> cList = bService.printAllComment(boardNo);
+		if (!cList.isEmpty()) {
+			// 날짜형식을 우리나라 표기법으로 변환 (데이터 포맷을 변경)
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			return gson.toJson(cList);
+		}
+			return null;
 	}
 }

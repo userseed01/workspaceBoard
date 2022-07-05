@@ -3,6 +3,7 @@ package com.eansoft.work.board.service;
 import java.util.List;
 
 import com.eansoft.work.board.domain.Board;
+import com.eansoft.work.board.domain.Comment;
 import com.eansoft.work.board.domain.File;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.common.Search;
@@ -38,4 +39,7 @@ public interface BoardService {
 
 	// 게시판 검색 페이징
 	public int boardSearchListCount(Search search);
+
+	// 게시글 상세조회 시 댓글 조회 화면
+	public List<Comment> printAllComment(int boardNo);
 }

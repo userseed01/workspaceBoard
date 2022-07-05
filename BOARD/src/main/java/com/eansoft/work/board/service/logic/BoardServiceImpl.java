@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eansoft.work.board.domain.Board;
+import com.eansoft.work.board.domain.Comment;
 import com.eansoft.work.board.domain.File;
 import com.eansoft.work.board.domain.PageCount;
 import com.eansoft.work.board.service.BoardService;
@@ -90,5 +91,12 @@ public class BoardServiceImpl implements BoardService{
 	public int boardSearchListCount(Search search) {
 		int result = bStore.selectSearchCount(sqlSession, search);
 		return result;
+	}
+
+	// 게시글 상세조회 시 댓글 조회 화면
+	@Override
+	public List<Comment> printAllComment(int boardNo) {
+		List<Comment> cList = bStore.selectCommentBoard(sqlSession, boardNo);
+		return cList;
 	}
 }

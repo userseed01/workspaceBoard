@@ -26,6 +26,18 @@
 		<result property="filePath" column="FILE_PATH"></result>
 	</resultMap>
 	
+	<resultMap type="Comment" id="commentResultMap">
+		<id property="commentNo" column="COMMENT_NO"></id>
+		<result property="parentCommentNo" column="PARENT_COMMENT_NO"></result>
+		<result property="boardNo" column="BOARD_NO"></result>
+		<result property="commentOrder" column="COMMENT_ORDER"></result>
+		<result property="commentDepth" column="COMMENT_DEPTH"></result>
+		<result property="emplId" column="EMPL_ID"></result>
+		<result property="commentContent" column="COMMENT_CONTENT"></result>
+		<result property="commentWriteDate" column="COMMENT_WRITE_DATE"></result>
+		<result property="commentModifyDate" column="COMMENT_MODIFY_DATE"></result>
+	</resultMap>
+	
 	<!-- 마이바티스에 줄이려고 써둠 parameterType -->
 	<!-- id값 storelogic값과 같아야함 -->
 	<!-- 위에 타입, 아이디 중 적어줌 -->
@@ -127,6 +139,13 @@
 		<if test="searchCondition.toString() =='emplId'">
 			EMPL_ID LIKE '%' || #{searchValue} || '%'
 		</if>
+	</select>
+
+	<!-- 게시글 상세조회 시 댓글 조회 화면 -->
+	<select id="selectComment" resultMap="commentResultMap">
+		SELECT *
+		FROM COMMENT_TBL
+		WHERE BOARD_NO = #{boardNo }
 	</select>
 
 </mapper>
