@@ -237,5 +237,16 @@ public class BoardController {
 			return "fail";
 		}
 	}
-
+	
+	// 게시글 상세 조회 시 댓글 수정
+	@ResponseBody
+	@RequestMapping(value="/board/boardCommentModify.eansoft", method = RequestMethod.POST)
+	public String boardCommentModify(@ModelAttribute Comment comment) {
+		int result = bService.modifyComment(comment);
+		if(result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
 }

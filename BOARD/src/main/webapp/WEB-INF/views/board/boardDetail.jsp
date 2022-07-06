@@ -125,6 +125,7 @@
 						$cContent = $("<td>").text(data[i].commentContent);
 						$cWriteDate = $("<td>").text(data[i].commentWriteDate);
 						$btnArea = $("<td>")
+							// 칸 안나누고 한번에 쓰기위해 .append두번 사용
 							.append( /* 추가 */
 							// (this) -> 이벤트가 발생된 태그가 선택됨
 							// data[i].replyContents -> 수정누르면 입력값 자동으로 입력되어있게 -> 매개변수 넘겨주고, value 값에도("++")사용하여 넣어줌
@@ -156,8 +157,8 @@
 			url : "/board/boardCommentAdd.eansoft",
 			type : "post",
 			data : {
-				"boardNo" : boardNo,
-				"commentContent" : cContent // "도메인" : 위에쓴것
+				"boardNo" : boardNo, // ()에 없어서 넘겨받을 수 없어서 var씀
+				"commentContent" : cContent // "도메인" : 위에쓴것(var)
 			},
 			success : function(data) {
 				// 성공하면 댓글 등록 후 입력값 없어지게
@@ -177,29 +178,46 @@
 		});
 	});
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 게시글 상세 조회 시 댓글 수정
+	// 디스를 obj, commentContent 매개변수로 넣어줌
+	// 위에 this는 사용할 수 없어서 obj로 사용
+	// obj는 받아주기 위해서 넣어줌
+	// 위 function은 위에 버튼 이름과 맞춰주고
+	// 아래 function은 append한 이름과 맞춰줌
+	// 폼 만들어줌
+	function modifyComment(obj, commentContent, commentNo) {
+		var $cModify = $("<tr>");
+		$cModify
+			.append("<td><input type='text' value='"+commentContent+"' id='commentModify'></td>");
+		$cModify
+			.append("<td><button onclick='btnModify("+commentNo+")'>수정완료</button></td>");
+		// 선택하려고. 상위 태그로 가려고 parent(윗레벨). after은 그 뒤에 해주려고(같은레벨)
+		$(obj).parent().parent().after($cModify); // 수정칸 생기는 위치, before하면 윗칸에 생김, 부모의 부모의 뒤에생김
+	}
+	// 만든 폼이 동작하도록
+	function btnModify(commentNo) {
+		// 수정된 값 갖고오기
+		var commentContent = $("#commentModify").val();
+		$.ajax({
+			url : "/board/boardCommentModify.eansoft",
+			type : "post",
+			data : {
+				"commentNo" : commentNo,
+				"commentContent" : commentContent
+			},
+			success : function(data) {
+				if(data == "success") {
+					alert("댓글이 수정되었습니다.");
+					commentView();
+				} else {
+					alert("댓글 수정 실패");
+				}
+			},
+			error : function() {
+				alert("ajax 오류");
+			}
+		});
+	}
 	</script>
 </body>
 </html>

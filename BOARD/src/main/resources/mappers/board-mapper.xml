@@ -154,8 +154,13 @@
 		VALUES(COMMENT_NO.NEXTVAL, #{boardNo}, 0, 0, 0, #{emplId}, #{commentContent}, DEFAULT, NULL) 
 	</insert>
 	
-	
-	
+	<!-- 게시글 상세 조회 시 댓글 수정 -->
+	<!-- COMMENT_CONTENT = #{commentContent} -> 위에쓴값 = jsp에서 설정한 값 -->
+	<update id="updateComment" parameterType="Comment">
+		UPDATE COMMENT_TBL
+		SET COMMENT_CONTENT = #{commentContent}, COMMENT_MODIFY_DATE = DEFAULT
+		WHERE COMMENT_NO = #{commentNo}
+	</update>
 	
 	
 	

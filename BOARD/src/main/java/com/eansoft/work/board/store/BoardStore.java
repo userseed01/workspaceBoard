@@ -47,4 +47,7 @@ public interface BoardStore {
 
 	// 게시글 상세조회 시 댓글 등록
 	public int insertComment(SqlSession sqlSession, Comment comment);
+
+	// 게시글 상세 조회 시 댓글 수정
+	public int updateComment(SqlSession sqlSession, Comment comment);
 }
