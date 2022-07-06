@@ -148,4 +148,20 @@
 		WHERE BOARD_NO = #{boardNo }
 	</select>
 
+	<!-- 게시글 상세조회 시 댓글 등록 -->
+	<insert id="insertComment" parameterType="Comment">
+		INSERT INTO COMMENT_TBL
+		VALUES(COMMENT_NO.NEXTVAL, #{boardNo}, 0, 0, 0, #{emplId}, #{commentContent}, DEFAULT, NULL) 
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 </mapper>

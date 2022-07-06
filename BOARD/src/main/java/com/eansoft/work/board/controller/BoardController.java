@@ -222,4 +222,20 @@ public class BoardController {
 		}
 			return null;
 	}
+	
+	// 게시글 상세조회 시 댓글 등록
+	@ResponseBody
+	@RequestMapping(value="/board/boardCommentAdd.eansoft", method = RequestMethod.POST)
+	public String boardCommentAdd(@ModelAttribute Comment comment, HttpServletRequest request) { // http는 로그인할때 세션에 담아둔 값 가져오고싶을때 사용
+		HttpSession session = request.getSession();
+		String emplId = (String) session.getAttribute("emplId"); // 변수에 저장된 emplId를 가져오겟다, 세션은 String으로 저장 안돼서 형변환
+		comment.setEmplId(emplId); // reply에 id를 넣겟다
+		int result = bService.addComment(comment);
+		if (result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+
 }

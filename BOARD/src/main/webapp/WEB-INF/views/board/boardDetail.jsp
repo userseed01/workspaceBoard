@@ -69,8 +69,8 @@
 	<!-- 댓글 등록 -->
 	<div>
 		<span>${sessionScope.emplId}</span>
-		<textarea placeholder="댓글을 입력하세요."></textarea>
-		<button id="submit">등록</button><br><br>
+		<textarea id="cContent" placeholder="댓글을 입력하세요."></textarea>
+		<button id="cSubmit">등록</button><br><br>
 	</div>
 	<!-- 댓글 목록 -->
 	<table border="1" id="ctb">
@@ -147,6 +147,59 @@
 			}
 		});
 	}
+	
+	// 게시글 상세조회 시 댓글 등록
+	$("#cSubmit").on("click", function(){
+		var boardNo = "${board.boardNo}";
+		var cContent = $("#cContent").val(); // 버튼 서밋으로 입력된 값 갖고오기, 번호에 맞게 내용 인서트 해야하니까
+		$.ajax({
+			url : "/board/boardCommentAdd.eansoft",
+			type : "post",
+			data : {
+				"boardNo" : boardNo,
+				"commentContent" : cContent // "도메인" : 위에쓴것
+			},
+			success : function(data) {
+				// 성공하면 댓글 등록 후 입력값 없어지게
+				if (data == "success") {
+					alert("댓글이 등록되었습니다.");
+					// 작성 후 내용 초기화
+					$("#cContent").val("");
+					// 댓글 불러오기
+					commentView();
+				} else {
+					alert("댓글 등록 실패");
+				}
+			},
+			error : function() {
+				alert("ajax 실패");
+			}
+		});
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	</script>
 </body>
 </html>

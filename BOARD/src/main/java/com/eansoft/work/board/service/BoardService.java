@@ -42,4 +42,7 @@ public interface BoardService {
 
 	// 게시글 상세조회 시 댓글 조회 화면
 	public List<Comment> printAllComment(int boardNo);
+
+	// 게시글 상세조회 시 댓글 등록
+	public int addComment(Comment comment);
 }

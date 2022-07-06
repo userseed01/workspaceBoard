@@ -114,4 +114,11 @@ public class BoardStoreLogic implements BoardStore{
 		List<Comment> cList = sqlSession.selectList("BoardMapper.selectComment", boardNo);
 		return cList;
 	}
+
+	// 게시글 상세조회 시 댓글 등록
+	@Override
+	public int insertComment(SqlSession sqlSession, Comment comment) {
+		int result = sqlSession.insert("BoardMapper.insertComment", comment);
+		return result;
+	}
 }

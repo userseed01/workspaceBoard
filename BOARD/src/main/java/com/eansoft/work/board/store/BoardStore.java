@@ -44,4 +44,7 @@ public interface BoardStore {
 
 	// 게시글 상세조회 시 댓글 조회 화면
 	public List<Comment> selectCommentBoard(SqlSession sqlSession, int boardNo);
+
+	// 게시글 상세조회 시 댓글 등록
+	public int insertComment(SqlSession sqlSession, Comment comment);
 }
