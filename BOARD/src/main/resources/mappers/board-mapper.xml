@@ -146,6 +146,7 @@
 		SELECT *
 		FROM COMMENT_TBL
 		WHERE BOARD_NO = #{boardNo }
+		ORDER BY COMMENT_NO DESC
 	</select>
 
 	<!-- 게시글 상세조회 시 댓글 등록 -->
@@ -162,11 +163,11 @@
 		WHERE COMMENT_NO = #{commentNo}
 	</update>
 	
-	
-	
-	
-	
-	
-	
+	<!-- 게시글 상세 조회 시 댓글 삭제 -->
+	<delete id="deleteComment">
+		DELETE
+		FROM COMMENT_TBL
+		WHERE COMMENT_NO =#{commentNo}
+	</delete>
 
 </mapper>

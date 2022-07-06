@@ -48,4 +48,7 @@ public interface BoardService {
 
 	// 게시글 상세 조회 시 댓글 수정
 	public int modifyComment(Comment comment);
+
+	// 게시글 상세 조회 시 댓글 삭제
+	public int removeComment(int commentNo);
 }

@@ -218,6 +218,29 @@
 			}
 		});
 	}
+	
+	// 게시글 상세 조회 시 댓글 삭제
+	function removeComment(commentNo) {
+		$.ajax({
+			url : "/board/boardCommentRemove.eansoft",
+			type : "get",
+			data : {
+				"commentNo" : commentNo
+			},
+			success : function(data) {
+				if (data == "success") {
+					alert("댓글이 삭제되었습니다.");
+					commentView();
+				} else {
+					alert("댓글 삭제 실패");
+				}
+			},
+			error : function() {
+				alert("ajax 오류");
+			}
+		});
+	}
+
 	</script>
 </body>
 </html>

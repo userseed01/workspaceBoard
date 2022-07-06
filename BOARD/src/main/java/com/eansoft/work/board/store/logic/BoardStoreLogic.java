@@ -128,4 +128,11 @@ public class BoardStoreLogic implements BoardStore{
 		int result = sqlSession.update("BoardMapper.updateComment", comment);
 		return result;
 	}
+
+	// 게시글 상세 조회 시 댓글 삭제
+	@Override
+	public int deleteComment(SqlSession sqlSession, int commentNo) {
+		int result = sqlSession.delete("BoardMapper.deleteComment", commentNo);
+		return result;
+	}
 }

@@ -249,4 +249,16 @@ public class BoardController {
 			return "fail";
 		}
 	}
+	
+	// 게시글 상세 조회 시 댓글 삭제
+	@ResponseBody
+	@RequestMapping(value="/board/boardCommentRemove.eansoft", method = RequestMethod.GET)
+	public String boardCommentRemove(@RequestParam("commentNo") int commentNo) {
+		int result = bService.removeComment(commentNo);
+		if(result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
 }

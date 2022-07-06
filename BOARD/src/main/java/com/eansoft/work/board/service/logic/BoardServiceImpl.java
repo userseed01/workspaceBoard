@@ -113,4 +113,11 @@ public class BoardServiceImpl implements BoardService{
 		int result = bStore.updateComment(sqlSession, comment);
 		return result;
 	}
+
+	// 게시글 상세 조회 시 댓글 삭제
+	@Override
+	public int removeComment(int commentNo) {
+		int result = bStore.deleteComment(sqlSession, commentNo);
+		return result;
+	}
 }

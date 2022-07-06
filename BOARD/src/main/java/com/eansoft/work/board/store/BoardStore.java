@@ -50,4 +50,7 @@ public interface BoardStore {
 
 	// 게시글 상세 조회 시 댓글 수정
 	public int updateComment(SqlSession sqlSession, Comment comment);
+
+	// 게시글 상세 조회 시 댓글 삭제
+	public int deleteComment(SqlSession sqlSession, int commentNo);
 }
