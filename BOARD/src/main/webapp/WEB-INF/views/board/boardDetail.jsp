@@ -122,6 +122,7 @@
 					for (var i in data) { // var i = 0; i < data.length; i++
 						$tr = $("<tr>"); //<tr></tr>
 						$cEmplId = $("<td>").text(data[i].emplId);
+						$cReEmplId = $("<td style='padding : 16px 10px 16px 30px;'>").text(data[i].emplId); /* 앞은 변수명 .뒤는 db에서 갖고오는것, 대댓글 */
 						$cContent = $("<td>").text(data[i].commentContent);
 						$cWriteDate = $("<td>").text(data[i].commentWriteDate);
 						$btnArea = $("<td>")
@@ -137,8 +138,12 @@
 							"<a href='javascript:void(0);' onclick='removeComment("+ data[i].commentNo + ");'>삭제</a>");
 						$btnRecomment = $("<td>")
 							.append(
-							"<a href='javascript:void(0)' onclick='recommentAdd(this, "+ data[i].commentNo + ", \"" +data[i].emplId +"\");'>답글</a>"); // 작성자만 답글달기위해 id넘김
-						$tr.append($cEmplId);
+							"<a href='javascript:void(0)' onclick='recommentAdd(this, "+ data[i].commentNo + ");'>답글</a>"); // 작성자만 답글달기위해 id넘김
+							if(data[i].commentOrder == 0) {
+								$tr.append($cEmplId);
+							} else {
+								$tr.append($cReEmplId);
+							}
 						$tr.append($cContent);
 						$tr.append($cWriteDate);
 						$tr.append($btnArea);
@@ -246,8 +251,9 @@
 	}
 
 	// 게시글 상세 조회 시 댓글의 답글 등록
-	function recommentAdd(obj, parentCommentNo, emplId) { // obj는 위치(a) 알려줌
+	function recommentAdd(obj, parentCommentNo) { // obj는 위치(a) 알려줌
 		var loginId = "<%=(String)session.getAttribute("emplId")%>"; /* 로그인 유저와 같으면 */
+		var emplId = "${board.emplId}";
 		// 로그인 유저와 같으면
 		if(loginId == emplId) {
 			var $cRecomment = $("<tr>");
