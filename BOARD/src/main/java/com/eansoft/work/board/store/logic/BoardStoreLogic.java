@@ -142,4 +142,11 @@ public class BoardStoreLogic implements BoardStore{
 		int result = sqlSession.insert("BoardMapper.insertRecomment", comment);
 		return result;
 	}
+
+	// 게시판 내용 전체 다운로드
+	@Override
+	public List<Board> selectAllMain(SqlSession sqlSession) {
+		List<Board> bList = sqlSession.selectList("BoardMapper.selectAllBoard");
+		return bList;
+	}
 }

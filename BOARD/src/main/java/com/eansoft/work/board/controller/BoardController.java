@@ -1,11 +1,17 @@
 package com.eansoft.work.board.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -279,5 +285,58 @@ public class BoardController {
 		} catch (Exception e) {
 			return e.toString();
 		}
+	}
+	
+	// 엑셀 파일 읽기(POI, Poor Obfuscation Implementation)
+	// Apache POI는 아파치 소프트웨어 재단에 의해 운영되는 오픈소스 프로젝트 입니다.
+	// 순수 자바 라이브러리로서 Microsoft Office의 Word, PowerPoint, Excel 형식의 파일을 읽고 쓸 수 있게 해주며
+	// 최근의 오피스 포맷인 Office Open XML File Format도 지원해줍니다.
+	
+	// 1. FileInputStream fis = new FileInputStream("엑셀파일경로"); // 파일 읽기
+	// 2. HSSFWorkbook workbook = new HSSFWorkbook(fis); //엑셀파일을 관리하는 객체로 받아오기
+	// 3. HSSFSheet sheet = workbook.getSheet(0); // 인덱스로 원하는 시트 가져오기
+	// 4. HSSFCell cell = sheet.getRow(x).getCell(y); // 해당 시트에서 x행 y열의 셀 가져오기
+	// 5. cell.getCellType() 메서드로 타입확인 후 타입별로 데이터 받기 (NumberCell, StringCell, BooleanCell등..)
+	// 엑셀 파일 쓰기
+	// 1. HSSFWorkbook workbook = new HSSFWorkbook(); // 새 엑셀 파일 만들기
+	// 2. HSSFSheet sheet = workbook.createSheet(); // 엑셀 워크북에서 새 시트 만들기
+	// 3. HSSFRow row = sheet.createRow(x); // x행에 만들기(접근)
+	// 4. HSSFCell cell = row.createCell(y); // 해당 행의 y열 셀 만들기(접근)
+	// 5. cell.setCellValue(값); // 접근한 셀에 값 입력하기
+	// 6. FileOutputStream fos = new FileOutputStream("만든엑셀파일경로");
+	// 7. workbook.write(fos); //파일 출력하기
+	
+	// 게시판 내용 전체 다운로드(POI, void는 리턴 없을 때 사용)
+	// 응답에 관한 부분은 reponse 객체에 담고
+	// 요청에 들어 온 것은 request가 담고 있으니 내가 꺼내올 정보들은 request에서 꺼내면 됨
+	@RequestMapping(value="/board/boardDownload.eansoft", method = RequestMethod.GET)
+	public void downloadExcel(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Workbook workbook = new HSSFWorkbook(); //  새 엑셀 파일 만들기, 엑셀파일을 관리하는 객체로 받아오기
+		Sheet sheet = workbook.createSheet("게시판내용들"); // 엑셀 워크북에서 새 시트 만들기
+		int rowNo = 0;
+		Row headerRow = sheet.createRow(rowNo++); // x행에 만들기(접근)
+		headerRow.createCell(0).setCellValue("글 번호");
+	    headerRow.createCell(1).setCellValue("글 종류");
+	    headerRow.createCell(2).setCellValue("글 제목");
+	    headerRow.createCell(3).setCellValue("첨부파일 개수");
+	    headerRow.createCell(4).setCellValue("작성자");
+	    headerRow.createCell(5).setCellValue("작성일");
+	    headerRow.createCell(6).setCellValue("조회수");
+		List<Board> bList = bService.printAllBoard(); // 위에 게시판 메인과 같게 적기
+		for(Board board : bList) {
+			Row row = sheet.createRow(rowNo++); // x행에 만들기(접근)
+			row.createCell(0).setCellValue(board.getBoardNo());
+			row.createCell(1).setCellValue(board.getBoardType());
+			row.createCell(2).setCellValue(board.getBoardTitle());
+			row.createCell(3).setCellValue(board.getFileCount());
+			row.createCell(4).setCellValue(board.getEmplId());
+			row.createCell(5).setCellValue(board.getBoardDate());
+			row.createCell(6).setCellValue(board.getBoardHits());
+		}
+		response.setContentType("ms-vnd/excel");
+	    response.setHeader("Content-Disposition", "attachment;filename=boardList.xls");
+	    // 밑에 두줄 throws IOException 추가해줘야 오류 안뜸
+	    workbook.write(response.getOutputStream());
+	    workbook.close(); // 리소스 자동닫기
 	}
 }

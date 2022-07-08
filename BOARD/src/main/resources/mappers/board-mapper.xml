@@ -163,11 +163,11 @@
 		WHERE COMMENT_NO = #{commentNo}
 	</update>
 	
-	<!-- 게시글 상세 조회 시 댓글 삭제 -->
+	<!-- 게시글 상세 조회 시 댓글 삭제, 댓글에 달려있는 대댓글도 함께 삭제 -->
 	<delete id="deleteComment">
 		DELETE
 		FROM COMMENT_TBL
-		WHERE COMMENT_NO =#{commentNo}
+		WHERE COMMENT_NO =#{commentNo} OR PARENT_COMMENT_NO = #{parentCommentNo}
 	</delete>
 
 	<!-- 게시글 상세 조회 시 댓글의 답글 등록 -->
@@ -179,13 +179,4 @@
 		    WHERE PARENT_COMMENT_NO = #{parentCommentNo}),
     	1, #{emplId}, #{commentContent}, DEFAULT, NULL)
 	</insert>
-
-
-
-
-
-
-
-
-
 </mapper>

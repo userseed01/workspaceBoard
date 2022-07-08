@@ -9,7 +9,8 @@
 </head>
 <body>
 	<h2>게시판</h2>
-	<a href="/board/boardWriteView.eansoft">게시글 작성</a>
+	<a href="/board/boardWriteView.eansoft">게시글 작성</a><br>
+	<a href="/board/boardDownload.eansoft">게시글 다운로드(POI)</a>
 	<br>
 	<br>
 

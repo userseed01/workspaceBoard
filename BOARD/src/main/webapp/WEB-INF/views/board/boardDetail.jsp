@@ -9,7 +9,7 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-	<h3>${board.boardNo }번게시글 상세보기</h3>
+	<h3>${board.boardNo }번 게시글 상세보기</h3>
 	<table border="1">
 		<tr>
 			<td>번호</td>

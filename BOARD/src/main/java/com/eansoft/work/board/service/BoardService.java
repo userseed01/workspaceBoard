@@ -54,4 +54,7 @@ public interface BoardService {
 
 	// 게시글 상세 조회 시 댓글의 답글 등록
 	public int recommentAdd(Comment comment);
+
+	// 게시판 내용 전체 다운로드
+	public List<Board> printAllBoard();
 }

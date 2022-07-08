@@ -127,4 +127,11 @@ public class BoardServiceImpl implements BoardService{
 		int result = bStore.insertRecomment(sqlSession, comment);
 		return result;
 	}
+
+	// 게시판 내용 전체 다운로드
+	@Override
+	public List<Board> printAllBoard() {
+		List<Board> bList = bStore.selectAllMain(sqlSession);
+		return bList;
+	}
 }
