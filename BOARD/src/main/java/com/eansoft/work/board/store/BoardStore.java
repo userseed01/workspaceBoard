@@ -53,4 +53,7 @@ public interface BoardStore {
 
 	// 게시글 상세 조회 시 댓글 삭제
 	public int deleteComment(SqlSession sqlSession, int commentNo);
+
+	// 게시글 상세 조회 시 댓글의 답글 등록
+	public int insertRecomment(SqlSession sqlSession, Comment comment);
 }

@@ -69,7 +69,7 @@
 	<!-- 댓글 등록 -->
 	<div>
 		<span>${sessionScope.emplId}</span>
-		<textarea id="cContent" placeholder="댓글을 입력하세요."></textarea>
+		<input id="cContent" placeholder="댓글을 입력하세요."></textarea>
 		<button id="cSubmit">등록</button><br><br>
 	</div>
 	<!-- 댓글 목록 -->
@@ -135,10 +135,14 @@
 							// javascript:void(0); -> 삭제버튼 눌러도 창 맨위로 올라가지 않게
 							// "+data[i].replyNo+" -> 데이터 function으로 넘겨주기 위해
 							"<a href='javascript:void(0);' onclick='removeComment("+ data[i].commentNo + ");'>삭제</a>");
+						$btnRecomment = $("<td>")
+							.append(
+							"<a href='javascript:void(0)' onclick='recommentAdd(this, "+ data[i].commentNo + ", \"" +data[i].emplId +"\");'>답글</a>"); // 작성자만 답글달기위해 id넘김
 						$tr.append($cEmplId);
 						$tr.append($cContent);
 						$tr.append($cWriteDate);
 						$tr.append($btnArea);
+						$tr.append($btnRecomment);
 						$tableBody.append($tr);
 					}
 				}
@@ -241,6 +245,45 @@
 		});
 	}
 
+	// 게시글 상세 조회 시 댓글의 답글 등록
+	function recommentAdd(obj, parentCommentNo, emplId) { // obj는 위치(a) 알려줌
+		var loginId = "<%=(String)session.getAttribute("emplId")%>"; /* 로그인 유저와 같으면 */
+		// 로그인 유저와 같으면
+		if(loginId == emplId) {
+			var $cRecomment = $("<tr>");
+			$cRecomment
+				.append("<td><input type='text' id='boardRecommentAdd'></td>"); // id작명
+			$cRecomment
+				.append("<td><button onclick='reCommentAdd("+parentCommentNo+");'>답글등록</button></td>");
+				$(obj).parent().parent().after($cRecomment);
+		} else {
+			alert("작성자만 답글을 작성할 수 있습니다.");
+		}
+	}
+	
+	function reCommentAdd(parentCommentNo) {
+		var boardNo = "${board.boardNo}";
+		var commentContent = $("#boardRecommentAdd").val();
+		$.ajax({
+			url : "/board/recommentAdd.eansoft",
+			type : "post",
+			data : {
+				"parentCommentNo" : parentCommentNo,
+				"commentContent" : commentContent,
+				"boardNo" : boardNo
+			},
+			success : function(data) {
+				if(data == "success") {
+					commentView();
+				} else {
+					alert("답글 등록 실패");
+				}
+			},
+			error : function() {
+				alert("ajax 오류");
+			}
+		});
+	}
 	</script>
 </body>
 </html>

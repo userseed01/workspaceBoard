@@ -28,8 +28,8 @@
 	
 	<resultMap type="Comment" id="commentResultMap">
 		<id property="commentNo" column="COMMENT_NO"></id>
-		<result property="parentCommentNo" column="PARENT_COMMENT_NO"></result>
 		<result property="boardNo" column="BOARD_NO"></result>
+		<result property="parentCommentNo" column="PARENT_COMMENT_NO"></result>
 		<result property="commentOrder" column="COMMENT_ORDER"></result>
 		<result property="commentDepth" column="COMMENT_DEPTH"></result>
 		<result property="emplId" column="EMPL_ID"></result>
@@ -146,13 +146,13 @@
 		SELECT *
 		FROM COMMENT_TBL
 		WHERE BOARD_NO = #{boardNo }
-		ORDER BY COMMENT_NO DESC
+		ORDER BY PARENT_COMMENT_NO, COMMENT_ORDER <!-- 댓글만 순서, 대댓글은 그 아래 순서 -->
 	</select>
 
 	<!-- 게시글 상세조회 시 댓글 등록 -->
 	<insert id="insertComment" parameterType="Comment">
 		INSERT INTO COMMENT_TBL
-		VALUES(COMMENT_NO.NEXTVAL, #{boardNo}, 0, 0, 0, #{emplId}, #{commentContent}, DEFAULT, NULL) 
+		VALUES(COMMENT_NO.NEXTVAL, #{boardNo}, COMMENT_NO.CURRVAL, 0, 0, #{emplId}, #{commentContent}, DEFAULT, NULL) 
 	</insert>
 	
 	<!-- 게시글 상세 조회 시 댓글 수정 -->
@@ -169,5 +169,23 @@
 		FROM COMMENT_TBL
 		WHERE COMMENT_NO =#{commentNo}
 	</delete>
+
+	<!-- 게시글 상세 조회 시 댓글의 답글 등록 -->
+	<insert id="insertRecomment" parameterType="Comment">
+		INSERT INTO COMMENT_TBL
+		VALUES (COMMENT_NO.NEXTVAL, #{boardNo}, #{parentCommentNo},
+		    (SELECT MAX(COMMENT_ORDER)+1
+		    FROM COMMENT_TBL
+		    WHERE PARENT_COMMENT_NO = #{parentCommentNo}),
+    	1, #{emplId}, #{commentContent}, DEFAULT, NULL)
+	</insert>
+
+
+
+
+
+
+
+
 
 </mapper>

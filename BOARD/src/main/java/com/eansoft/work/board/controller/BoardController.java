@@ -261,4 +261,23 @@ public class BoardController {
 			return "fail";
 		}
 	}
+	
+	// 게시글 상세 조회 시 댓글의 답글 등록
+	@ResponseBody
+	@RequestMapping(value="/board/recommentAdd.eansoft", method = RequestMethod.POST)
+	public String recommentAdd(@ModelAttribute Comment comment, HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession();
+	        String emplId = (String) session.getAttribute("emplId");
+	        comment.setEmplId(emplId);
+	        int result = bService.recommentAdd(comment);
+	        if(result > 0) {
+	        	return "success";
+	        } else {
+	        	return "fail";
+	        }
+		} catch (Exception e) {
+			return e.toString();
+		}
+	}
 }

@@ -135,4 +135,11 @@ public class BoardStoreLogic implements BoardStore{
 		int result = sqlSession.delete("BoardMapper.deleteComment", commentNo);
 		return result;
 	}
+
+	// 게시글 상세 조회 시 댓글의 답글 등록
+	@Override
+	public int insertRecomment(SqlSession sqlSession, Comment comment) {
+		int result = sqlSession.insert("BoardMapper.insertRecomment", comment);
+		return result;
+	}
 }

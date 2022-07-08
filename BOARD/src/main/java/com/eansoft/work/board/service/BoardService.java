@@ -51,4 +51,7 @@ public interface BoardService {
 
 	// 게시글 상세 조회 시 댓글 삭제
 	public int removeComment(int commentNo);
+
+	// 게시글 상세 조회 시 댓글의 답글 등록
+	public int recommentAdd(Comment comment);
 }
