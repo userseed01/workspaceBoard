@@ -59,4 +59,7 @@ public interface BoardStore {
 
 	// 게시판 내용 전체 다운로드
 	public List<Board> selectAllMain(SqlSession sqlSession);
+
+	// 게시판 검색 후 내용 다운로드
+	public List<Board> selectSearchBoard(SqlSession sqlSession, Search search);
 }

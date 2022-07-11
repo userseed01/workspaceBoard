@@ -134,4 +134,11 @@ public class BoardServiceImpl implements BoardService{
 		List<Board> bList = bStore.selectAllMain(sqlSession);
 		return bList;
 	}
+
+	// 게시판 검색 후 내용 다운로드
+	@Override
+	public List<Board> printSearchBoard(Search search) {
+		List<Board> bList = bStore.selectSearchBoard(sqlSession, search);
+		return bList;
+	}
 }

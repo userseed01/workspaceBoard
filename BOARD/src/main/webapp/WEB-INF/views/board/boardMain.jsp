@@ -10,9 +10,10 @@
 <body>
 	<h2>게시판</h2>
 	<a href="/board/boardWriteView.eansoft">게시글 작성</a><br>
-	<a href="/board/boardDownload.eansoft">게시글 다운로드(POI)</a>
-	<br>
-	<br>
+	<a href="/board/boardDownload.eansoft">게시글 다운로드(POI)</a><br>
+	<!-- 컨트롤러에서 ()안에 search를 적어줬기 때문에 mapper로 가서 검색을 하는데 tostring 오류나서
+		?searchCondition=${search.searchCondition }&searchValue=${search.searchValue } 추가해줌 -->
+	<a href="/board/boardSearchDownload.eansoft?searchCondition=${search.searchCondition }&searchValue=${search.searchValue }" >게시글 검색 다운로드(POI)</a><br><br>
 
 	<form action="/board/boardSearchView.eansoft" method="get">
 		<select name="searchCondition">
@@ -97,7 +98,6 @@
 				</td>
 			</tr>
 		</c:if>
-		
 	</table>
 </body>
 </html>

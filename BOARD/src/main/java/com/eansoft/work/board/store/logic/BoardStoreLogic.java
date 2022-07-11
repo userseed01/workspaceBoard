@@ -149,4 +149,11 @@ public class BoardStoreLogic implements BoardStore{
 		List<Board> bList = sqlSession.selectList("BoardMapper.selectAllBoard");
 		return bList;
 	}
+
+	// 게시판 검색 후 내용 다운로드
+	@Override
+	public List<Board> selectSearchBoard(SqlSession sqlSession, Search search) {
+		List<Board> bList = sqlSession.selectList("BoardMapper.selectSearchBoard", search);
+		return bList;
+	}
 }
