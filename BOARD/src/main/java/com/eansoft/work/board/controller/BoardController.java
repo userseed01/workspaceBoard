@@ -115,12 +115,12 @@ public class BoardController {
 						file.setFilePath(filePath);
 						file.setFileName(fileName);
 						file.setFileRename(fileRename);
-					// 첨부파일
-					int fResult = bService.registerBoardFile(file); // result 같은거 한번밖에 못씀
-					if( fResult <= 0) {
-						model.addAttribute("msg", "첨부파일 등록 실패");
-						return "common/errorPage";
-					}
+						// 첨부파일
+						int fResult = bService.registerBoardFile(file); // result 같은거 한번밖에 못씀
+						if( fResult <= 0) {
+							model.addAttribute("msg", "첨부파일 등록 실패");
+							return "common/errorPage";
+						}
 					}
 				}
 			}
@@ -223,6 +223,7 @@ public class BoardController {
 		List<Comment> cList = bService.printAllComment(boardNo);
 		if (!cList.isEmpty()) {
 			// 날짜형식을 우리나라 표기법으로 변환 (데이터 포맷을 변경)
+			// setDateFormat을 통하여 원하는 date 포맷의 값을 받아서 date 객체로 변환 가능
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			return gson.toJson(cList);
 		}
@@ -243,7 +244,7 @@ public class BoardController {
 			return "fail";
 		}
 	}
-	
+	                             
 	// 게시글 상세 조회 시 댓글 수정
 	@ResponseBody
 	@RequestMapping(value="/board/boardCommentModify.eansoft", method = RequestMethod.POST)
@@ -372,5 +373,12 @@ public class BoardController {
 	    // 밑에 두줄 throws IOException 추가해줘야 오류 안뜸
 	    workbook.write(response.getOutputStream());
 	    workbook.close(); // 리소스 자동닫기
+	}
+	
+	// API 통계 화면
+	@RequestMapping(value="/board/statisticsView.eansoft", method = RequestMethod.GET)
+	public ModelAndView statisticsView(ModelAndView mv) {
+		mv.setViewName("board/boardStatisticsView");
+		return mv;
 	}
 }

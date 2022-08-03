@@ -13,7 +13,10 @@
 			<a id="myLink1" href="/board/boardMainView.eansoft">게시판</a>
 		</div>
 		<div>
-			<a id="myLink2" href="/employee/logout.eansoft">로그아웃</a>
+			<a id="myLink3" href="/employee/logout.eansoft">로그아웃</a>
+		</div><br><br>
+		<div>
+			<a id="myLink2" href="/board/statisticsView.eansoft">API 통계</a>
 		</div>
 <!-- 	</form> -->
 </body>
